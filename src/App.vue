@@ -1,5 +1,11 @@
 <template>
   <div class="indexView">
+    <div class="index-indicator" v-show="indicatorShow" @touchmove.stop.prevent>
+      <div class="mint-indicator-wrapper">
+        <spinner class="mint-indicator-spin" :type="1" :size="45"></spinner>
+        <span class="mint-indicator-text">加载中...</span>
+      </div>
+    </div>
     <router-view
       class="view"
       keep-alive
@@ -10,8 +16,14 @@
 </template>
 
 <script>
+import { Spinner } from 'mint-ui';
 export default {
-  components: {}
+  components: { spinner: Spinner },
+  computed: {
+    indicatorShow: function () {
+      return this.$store.state.loading.loadingShow;
+    }
+  }
 };
 //   data() {
 //     return {

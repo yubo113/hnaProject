@@ -45,6 +45,7 @@
                 <div class="pull-up" data-type="all">上拉加载更多</div>
             </div>
         </div>
+        <!-- <returntop :iscroll="indexIscroll"></returntop> -->
     </div>
 </div>
 </template>
@@ -52,8 +53,10 @@
 <script>
 import IScroll from 'Iscroll';
 import $ from 'jquery';
-// import { Indicator } from 'mint-ui';
+// import returntop from '../components/returntop.vue';
+
 export default {
+    // components: { 'returntop': returntop },
     data () {
     return {
         indexIscroll: '',
@@ -92,7 +95,7 @@ export default {
         };
     },
     beforeCreate () {
-        // this.$store.commit('loadingShow');
+        this.$store.commit('loadingShow');
     },
     created () {
     // 组件创建完后获取数据，这里和1.0不一样，改成了这个样子
@@ -117,13 +120,15 @@ export default {
         },
         getTitleList: function () {
             var self = this;
+            this.$store.commit('loadingShow');
             this.$post({
                 url: '/app/mainReq?reqUrl=/act/task/todoIndex'
             }).then(res => {
                 if (res.result) {
                     self.newsLists = res.data;
+                    this.$store.commit('loadingHide');
                 }
-                this.$store.commit('loadingHide');
+                console.log(res);
             });
         },
         pullMore: function () {
@@ -137,6 +142,7 @@ export default {
     },
     updated () {
         //  刷新iscroll
+        console.log(22222);
         this.indexIscroll.refresh();
     },
     mounted () {
@@ -162,6 +168,7 @@ export default {
         });
     },
     beforeDestroy () {
+        console.log(111111);
         this.indexIscroll.destroy();
         this.indexIscroll = null;
     }

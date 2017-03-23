@@ -14,27 +14,23 @@
 			    	<div class="fl project-text pt-10 pb-10">
 			    		<div>
 			    			<span class="text-light-grey span-3 inline tr">项目名称</span>
-			    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.name }}</span></span>
+			    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.projectName }}</span></span>
 			    		</div>
 			    		<div>
 			    			<span class="text-light-grey span-3 inline tr">报告类别</span>
-			    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.report }}</span></span>
+			    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.reportType }}</span></span>
 			    		</div>
 			    		<div>
 			    			<span class="text-light-grey span-3 inline tr">发布时间</span>
-			    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.time }}</span></span>
+			    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.reportRelTime }}</span></span>
 			    		</div>
 			    		<div>
 			    			<span class="text-light-grey span-3 inline tr">工作状态</span>
-			    			<span>:<span class="pl-10">{{ item.work }}</span></span>
-			    		</div>
-			    		<div>
-			    			<span class="text-light-grey span-3 inline tr">发布时间</span>
-			    			<span>:<span class="pl-10">{{ item.time }}</span></span>
+			    			<span>:<span class="pl-10">{{ item.workStauts }}</span></span>
 			    		</div>
 			    		<div>
 			    			<span class="text-light-grey span-3 inline tr">参与人</span>
-			    			<span>:<span class="pl-10 text-blue" v-for="(people,index) in item.people" :key="index" @click="enterAppReport">{{people.peoplename}}</span></span>
+			    			<span>:<span class="pl-10 text-blue inline" v-for="(people,index) in item.csrReportSonList" :key="index" @click="enterAppReport">{{people.reportParticipantname}}</span></span>
 			    		</div>
 			    	</div>
 			    	<div class="fr project-index tc text-white">
@@ -59,68 +55,22 @@
 		data () {
 			return {
 				projectList: [{
-					name: '项目名称',
-					report: '公司领导',
-					time: '2017-10-2 12:20',
-					work: '未完成',
-					people: [{
-						peoplename: '张彦军'
-					}, {
-						peoplename: '阳光'
+					projectName: '项目名称',
+					reportType: '公司领导',
+					reportRelTime: '2017-10-2 12:20',
+					workStauts: '未完成',
+					csrReportSonList: [{
+						reportParticipantname: '张彦军'
 					}],
-					status: 'failed'
-				}, {
-					name: '项目名称',
-					report: '公司领导',
-					time: '2017-10-2 12:20',
-					work: '未完成',
-					people: [{
-						peoplename: '张彦军'
-					}, {
-						peoplename: '阳光'
-					}],
-					status: 'failed'
-				},
-				{
-					name: '项目名称',
-					report: '公司领导',
-					time: '2017-10-2 12:20',
-					work: '完成',
-					people: [{
-						peoplename: '张彦军'
-					}, {
-						peoplename: '阳光'
-					}],
-					status: 'success'
-				}, {
-					name: '项目名称',
-					report: '公司领导',
-					time: '2017-10-2 12:20',
-					work: '未完成',
-					people: [{
-						peoplename: '张彦军'
-					}, {
-						peoplename: '阳光'
-					}],
-					status: 'failed'
-				},
-				{
-					name: '项目名称',
-					report: '公司领导',
-					time: '2017-10-2 12:20',
-					work: '完成',
-					people: [{
-						peoplename: '张彦军'
-					}, {
-						peoplename: '阳光'
-					}],
-					status: 'success'
+					status: 1
 				}],
 				curworkIscroll: ''
 			};
 		},
 		created () {
 			this.$store.commit('changeTitle', 'CSR工作');
+			this.getCsrWork();
+			this.$store.commit('loadingHide');
 		},
 		watch: {
 		},
@@ -129,19 +79,35 @@
 			enterAppReport: function () {
 				this.$router.push({name: 'appReport', params: {id: 123}});
 			},
+			getCsrWork: function () {
+				const self = this;
+				this.$post({
+					url: '/app/mainReq?reqUrl=/mobile/csrReport/list',
+					params: {
+						projectName: 'APP'
+					}
+				}).then(res => {
+					if (res.result && res.data) {
+						self.projectList = res.data.csrReportList;
+						console.log(res.data.csrReportList);
+					} else {
+						//	暂无数据
+					}
+				});
+			},
 			// 加载更多
 			pullMore: function () {
 				this.projectList.push({
-					name: '项目名称',
+					projectName: '项目名称',
 					report: '公司领导',
-					time: '2017-10-2 12:20',
+					reportRelTime: '2017-10-2 12:20',
 					work: '完成',
 					people: [{
 						peoplename: '张彦军'
 					}, {
 						peoplename: '阳光'
 					}],
-					status: 'success'
+					status: '1'
 				});
 			}
 		},

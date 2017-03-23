@@ -4,6 +4,7 @@ var root = process.env.API_ROOT;
 
 export default {
     get: function (opt) {
+        console.log(`${root}${opt.url}`);
         return $.ajax({
             url: `${root}${opt.url}`,
             type: 'GET',
@@ -30,6 +31,7 @@ export default {
             url: `${root}${opt.url}`,
             type: 'POST',
             data: opt.params || {},
+            dataType: 'json',
             xhrFields: {
                 withCredentials: true,
                 useDefaultXhrHeader: false

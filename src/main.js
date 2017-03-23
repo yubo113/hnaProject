@@ -31,6 +31,10 @@ Vue.use(VueResource);
 // Vue.http.options.crossDomain = true;
 // Vue.http.options.emulateHTTP = true;
 
+// 引用filter
+import filter from './config/filter';
+Vue.filter('csrWorkStatus', filter.csrworkStatus);
+
 //	引用了mintUI库
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';

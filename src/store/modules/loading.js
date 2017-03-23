@@ -1,7 +1,6 @@
-import { Indicator, Toast } from 'mint-ui';
-// import { Toast } from 'mint-ui';
+import { Toast } from 'mint-ui';
 const state = {
-  show: true
+	loadingShow: true
 };
 
 // getters
@@ -25,13 +24,10 @@ const actions = {
 // mutations
 const mutations = {
 	loadingShow: function () {
-		Indicator.open({
-			text: '加载中...',
-			spinnerType: 'double-bounce'
-        });
+		state.loadingShow = true;
 	},
 	loadingHide: function () {
-		Indicator.close();
+		state.loadingShow = false;
 	},
 	tipShow: function () {
 		let instance = Toast({
