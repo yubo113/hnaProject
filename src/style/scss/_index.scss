@@ -1,0 +1,56 @@
+.indexView {
+	height:100%;
+	position: relative;
+}
+.head {
+	position : fixed;
+	z-index:10;
+	top:0;
+	width:100%;
+	background : $red;
+	color : $white;
+	font-size:0.29rem;
+}
+.head-instance {
+	font-size:0.29rem;
+	visibility: hidden;
+}
+.index-banner {
+	// height:2rem;
+	img {
+		width: 100%;
+	}
+}
+.index-con {
+	padding: 2% 2%;
+	background: $white;
+	.index-item {
+		width: 25%;
+		img {
+			display: inline-block;
+			width: 60%;
+		}
+	}
+}
+.index-list {
+	padding:0 4%;
+	background-color: $grey;
+	border-top:1px solid $red;
+	.index-listTitle {
+		margin-top: -0.15rem;
+		span {
+			border:1px solid $red;
+		}
+	}
+	.newslist {
+		color:#444;
+		li {
+			padding:0.1rem 0 0.1rem;
+			border-bottom:1px solid $dark-grey;
+		}
+	}
+}
+.pullMore {
+	padding:0.05rem 0.2rem;
+	border: 1px dashed $dark-grey;
+}

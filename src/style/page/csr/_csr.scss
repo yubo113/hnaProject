@@ -1,0 +1,33 @@
+@mixin project-status ($color){
+	border-top:3px solid $color;
+	.project-index {
+		background-color:$color;
+	}
+}
+.csr {
+	height: 100%;
+	background-color: #f3f0e9;
+	// overflow: hidden;
+	.project-detail {
+		border: 1px solid #b9b9b9;
+		border-radius: 0.07rem;
+		margin:0.1rem;
+		margin-top: 0;
+		.project-text {
+			width: calc(100% - 0.5rem);
+		}
+		.project-index {
+			width:0.5rem;
+			height:0.5rem;
+			line-height: 0.4rem;
+			border-radius: 0 0 0 0.4rem;
+		}
+	}
+	.project-status-success {
+		@include project-status(#007b23)
+	}
+	.project-status-failed {
+		@include project-status($red)
+	}
+}
+

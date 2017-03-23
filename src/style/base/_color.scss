@@ -1,0 +1,48 @@
+$red : #d80c18;
+$white : #fff;
+$green : #008b14;
+
+$black : #2a2a2a;
+
+$orange : #f6720a;
+
+$blue: #589dff;
+
+$light-grey: #737373;
+$grey: #fafafa;
+$dark-grey: #a0a0a0;
+
+.text-white {
+	color: $white;
+}
+.text-red {
+	color: $red;
+}
+.text-light-grey {
+	color: $light-grey;
+}
+.text-dark-grey {
+	color: $dark-grey;
+}
+.text-blue {
+	color: $blue;
+}
+
+.bg-white {
+	background-color: $white;
+}
+.bg-grey {
+	background-color: $grey;
+}
+.bg-orange {
+	background-color: $orange;
+}
+.bg-black {
+	background-color: $black;
+}
+.bg-red {
+	background-color: $red;
+}
+.bg-green {
+	background-color: $green;
+}
