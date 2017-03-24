@@ -1,6 +1,7 @@
 import siderbarMoudles from '../store/modules/siderbar';
 import titlenameMoudles from '../store/modules/titlename';
 import loadingMoudles from '../store/modules/loading';
+import returntopMoudles from '../store/modules/returntop';
 export default {
 	state: {
 		status: false
@@ -13,6 +14,7 @@ export default {
 	modules: {
 		siderbar: siderbarMoudles,
 		titlename: titlenameMoudles,
-		loading: loadingMoudles
+		loading: loadingMoudles,
+		returntop: returntopMoudles
 	}
 };

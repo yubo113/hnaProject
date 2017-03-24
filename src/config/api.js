@@ -98,12 +98,17 @@ export default {
         var $pullDown = $('.pull-down');
         var offset = $pullUp.height();
         var noData = '';
-        var refreshSet = null;
+        // var refreshSet = null;
         var loadSet = null;
         var scroller = iscroll;
+        var returnTop = $('.return-top');
 
         scroller.on('scroll', function () {
             if (this.y < 0) {
+                // show returnTop component
+                if (returnTop) {
+                    returnTop.show();
+                }
                 if (!$pullUp.hasClass('show')) {
                     if (-this.y > -this.maxScrollY + offset) {
                         // $pullUp.text( '上拉加载更多' ).addClass( 'show' );
@@ -133,6 +138,10 @@ export default {
                 }
             } else {
                 /** Pull down */
+                // hide returnTop component
+                if (returnTop) {
+                    returnTop.hide();
+                }
                 if (!$pullDown.hasClass('show')) {
                     if (this.y > 5) {
                         $pullDown.text('下拉刷新').addClass('show');
@@ -182,18 +191,9 @@ export default {
 
             if ($pullDown.hasClass('loading')) {
                 $pullDown.text('刷新中');
-                clearInterval(refreshSet);
-                refreshSet = setTimeout(function () {
-                  $pullDown.removeClass('show loading');
-                }, 1000);
-                // if (typeof refresh === 'function') {
-                //     refresh($pullDown)
-                //     .always(function () {
-                //         $pullDown.text('下拉刷新').removeClass('show loading');
-
-                //         setTimeout(function () { scroller.refresh(); });
-                //     });
-                // }
+                refresFn().always(function () {
+                    $pullDown.text('下拉刷新').removeClass('show loading');
+                });
             } else {
                 $pullDown.removeClass('show loading');
             }

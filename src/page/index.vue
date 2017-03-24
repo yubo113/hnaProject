@@ -18,7 +18,7 @@
     <div class="iscroll">
         <div id="wrapper">
             <div id="scroller">
-                <div class="pull-down" data-type="all">下拉刷新</div>
+                <!-- <div class="pull-down" data-type="all">下拉刷新</div> -->
                 <div class="clearfix index-con pb-30">
                     <div class="fl index-item tc textOverflow pt-10 pb-10" v-for="item in lists">
                         <div>
@@ -42,10 +42,12 @@
                         <li class="textOverflow in-20" v-for="(item , index) in newsLists"><router-link to="">{{index + 1}}.{{item.taskName}}</router-link></li>
                     </ul>
                 </div>
-                <div class="pull-up" data-type="all">上拉加载更多</div>
+                <!-- <div class="pull-up" data-type="all">上拉加载更多</div> -->
             </div>
         </div>
-        <!-- <returntop :iscroll="indexIscroll"></returntop> -->
+        <!-- <div class="return-top tc text-white bg-grey text-dark-grey"  v-on:click="returnTop">
+            <span>Top</span>
+        </div> -->
     </div>
 </div>
 </template>
@@ -53,10 +55,10 @@
 <script>
 import IScroll from 'Iscroll';
 import $ from 'jquery';
-// import returntop from '../components/returntop.vue';
+import returntop from '../components/returntop.vue';
 
 export default {
-    // components: { 'returntop': returntop },
+    components: { 'returntop': returntop },
     data () {
     return {
         indexIscroll: '',
@@ -128,21 +130,23 @@ export default {
                     self.newsLists = res.data;
                     this.$store.commit('loadingHide');
                 }
-                console.log(res);
             });
         },
-        pullMore: function () {
-            // this.newsLists.push({
-            //     text: '全国人大常委会为何发怒常委会副秘书长？'
-            // });
-        },
+        // pullMore: function () {
+        //     // this.newsLists.push({
+        //     //     text: '全国人大常委会为何发怒常委会副秘书长？'
+        //     // });
+        // },
         backDoudou: function () {
         // doudou.exitLightApp();
+        },
+        returnTop: function () {
+            this.indexIscroll.scrollTo(0, 0, 1000, IScroll.utils.ease.elastic);
+            $('.return-top').hide();
         }
     },
     updated () {
         //  刷新iscroll
-        console.log(22222);
         this.indexIscroll.refresh();
     },
     mounted () {
@@ -164,11 +168,10 @@ export default {
             interactiveScrollbars: false,
             hideScrollbar: false
             });
-            self.loadmore(self.indexIscroll, self.pullMore, self.pullMore);
+            // self.loadmore(self.indexIscroll, self.pullMore, self.pullMore);
         });
     },
     beforeDestroy () {
-        console.log(111111);
         this.indexIscroll.destroy();
         this.indexIscroll = null;
     }

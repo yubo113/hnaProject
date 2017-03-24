@@ -47,7 +47,7 @@ export default [
     component: csr,
     children: [
         { path: '/index/csr/csrwork', name: 'csrwork', component: csrwork },
-        { path: '/index/csr/appreport/:id', name: 'appReport', component: appReport },
+        { path: '/index/csr/appreport', name: 'appReport', component: appReport },
         { path: '/index/csr/hisreport', name: 'hisReport', component: hisReport }
     ]
   },
