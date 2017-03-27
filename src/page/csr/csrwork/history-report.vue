@@ -3,11 +3,11 @@
 		<div class="app-report bg-white pt-20">
 			<div class="mb-20">
     			<span class="text-light-grey span-2 inline tr">项目名称</span>
-    			<span class="span-7 textOverflow inline app-report-text">{{ this.$route.query.project }}</span>
+    			<span class="span-7 textOverflow inline app-report-text">{{ this.$route.query.projectName }}</span>
     		</div>
     		<div class="mb-20">
     			<span class="text-light-grey span-2 inline tr">参与人</span>
-    			<span class="span-7 textOverflow inline app-report-text">{{ this.$route.query.user }}</span>
+    			<span class="span-7 textOverflow inline app-report-text">{{ this.$route.query.reportParticipantname }}</span>
     		</div>
 		</div>
 	    <div class="iscroll">
@@ -37,7 +37,7 @@
 					    		</div>
 				    		</div>
 				    		<div v-else>
-				    			<div class="his-detail bg-white" v-for="(item, index) in hisDetailList" :key="index">
+				    			<div class="his-detail bg-white" v-for="detail in item[`step${index+1}`]">
 					    		<div class="pb-10 pt-10">
 					    			<span class="text-light-grey span-2 inline tr">审批内容</span>
 					    			<span class="span-7 textOverflow inline app-report-text">
@@ -76,6 +76,8 @@
 		data () {
 			return {
 				hisReportIscroll: null,
+				isPullDown: false,
+				types: true,
 				openIndex: '',
 				hisList: [{
 					time: '2017-1-13',
@@ -130,10 +132,35 @@
 			};
 		},
 		created () {
+			console.log('this is created');
 		},
+		activated () {
+			this.getHisList();
+	    },
 		watch: {
 		},
 		methods: {
+			//	获取列表消息
+			getHisList: function () {
+				const self = this;
+				console.log(this.$route.query.id);
+				return this.$post({
+					url: '/app/mainReq?reqUrl=/mobile/csrApproval/list',
+					params: {
+						parentid: '7524aa81af7c47988704a7be8dd23c9c'
+					}
+				}).then(res => {
+					if (res.result) {
+						if (res.data && res.data.csrApprovalInfos.length > 0) {
+							console.log(res);
+							self.hisList = res.data.csrApprovalInfos;
+							console.log(self.hisList);
+						} else {
+
+						}
+					}
+				});
+			},
 			//	进入
 			enterHisReport: function () {
 			},

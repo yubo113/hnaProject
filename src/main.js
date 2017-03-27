@@ -38,12 +38,12 @@ Vue.filter('csrWorkStatus', filter.csrworkStatus);
 //	引用了mintUI库
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
-
 Vue.use(MintUI);
 // import { Loadmore } from 'mint-ui';
 // 	Vue.component(Loadmore.name, Loadmore);
 // import { Indicator , InfiniteScroll } from 'mint-ui';
 // Vue.use(Indicator , InfiniteScroll);
+
 // 引用公用方法
 import api from './config/api';
 Vue.prototype.loadmore = api.loadmore;

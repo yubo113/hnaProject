@@ -11,6 +11,7 @@ import csr from '../page/csr/csr.vue';
 import csrwork from '../page/csr/csrwork/csrwork.vue';
 import appReport from '../page/csr/csrwork/app-report.vue';
 import hisReport from '../page/csr/csrwork/history-report.vue';
+import fileImg from '../components/fileImg.vue';
 // projectDevelop(项目发展)
 import projectDevelop from '../page/projectDevelop/projectDevelop.vue';
 
@@ -48,7 +49,8 @@ export default [
     children: [
         { path: '/index/csr/csrwork', name: 'csrwork', component: csrwork },
         { path: '/index/csr/appreport', name: 'appReport', component: appReport },
-        { path: '/index/csr/hisreport', name: 'hisReport', component: hisReport }
+        { path: '/index/csr/hisreport', name: 'hisReport', component: hisReport },
+        { path: '/index/csr/fileImg', name: 'fileImg', component: fileImg }
     ]
   },
   //  项目发展

@@ -10,11 +10,11 @@
 			    	<div class="app-report row bg-white pt-20">
 			    		<div class="mb-20">
 			    			<span class="text-light-grey span-2 inline tr">项目名称</span>
-			    			<span class="span-7 textOverflow inline app-report-text">{{ appReportDetail.name }}</span>
+			    			<span class="span-7 textOverflow inline app-report-text">{{ $route.query.projectName }}</span>
 			    		</div>
 			    		<div class="mb-20">
 			    			<span class="text-light-grey span-2 inline tr">参与人</span>
-			    			<span class="span-7 textOverflow inline app-report-text">{{ appReportDetail.people }}</span>
+			    			<span class="span-7 textOverflow inline app-report-text">{{ $route.query.reportParticipantname }}</span>
 			    		</div>
 			    		<div class="mb-10">
 			    			<span class="text-light-grey span-2 inline tr vertical-top">审批内容</span>
@@ -22,7 +22,7 @@
 			    				<div v-for="(fileItem, index) in appReportDetail.file" :key="index" class="mb-10">
 			    					<span>{{  fileItem.detailType }}</span>
 			    					<span class="text-dark-grey">({{  fileItem.detailTime }})</span>
-			    					<span class="text-red pl-10 pr-10"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+			    					<span class="text-red pl-10 pr-10" @click="enterFileImg()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
 			    				</div>
 			    			</div>
 			    		</div>
@@ -52,6 +52,7 @@
 
 <script>
 	import IScroll from 'Iscroll';
+	import { MessageBox } from 'mint-ui';
 	export default {
 		data () {
 			return {
@@ -73,9 +74,10 @@
 			};
 		},
 		created () {
-			this.$store.commit('changeTitle', 'CSR动态报告审批');
+			// this.$store.commit('changeTitle', 'CSR动态报告审批');
 		},
 		activated () {
+			this.$store.commit('changeTitle', 'CSR动态报告审批');
 			this.reported = true;
 			this.readonly = false;
 	    },
@@ -84,6 +86,31 @@
 		watch: {
 		},
 		methods: {
+			//	审批结果发送
+			reportOperate: function (resultObj) {
+				this.$post({
+					url: '/app/mainReq?reqUrl=/dynrap/hnabCsrDynrAp/approvalResult',
+					params: {
+						id: this.$route.query.id,
+						hnabCsrApprovalInfo: {
+							status: resultObj.result,
+							remarks: resultObj.resultDetail,
+							parentid: this.$route.query.id,
+							thisStep: this.$route.query.thisStep
+						},
+						mobileLogin: true
+					}
+				}).then(res => {
+					//	当成功返回数据
+					if (res.result) {
+						console.log(res);
+						this.$store.commit('loadingHide');
+					} else {
+						console.log(res);
+						//	当返回数据失败时候，展示相应的
+					}
+				});
+			},
 			//	进入历史审批报告
 			enterHisReport: function () {
 				this.$router.push({
@@ -95,14 +122,25 @@
 			},
 			//	返回点击结果
 			reportResult: function (bool) {
-				if (bool) {
-					this.resultText = '同意';
-				} else {
-					this.resultText = '拒绝';
-				}
-				this.reported = false;
-				this.readonly = true;
-				this.$store.commit('tipShow');
+				const self = this;
+				MessageBox.confirm('确定执行此操作', '提醒').then(action => {
+					if (bool) {
+						self.resultText = '同意';
+					} else {
+						self.resultText = '拒绝';
+					}
+					this.reported = false;
+					this.readonly = true;
+				}, action => {});
+				// this.$store.commit('tipShow');
+				// this.reportOperate({
+				// 	result: 1,
+				// 	resultDetail: 'this is resultDetail'
+				// });
+			},
+			//	进入文件预览
+			enterFileImg: function (url) {
+				this.$router.replace({name: 'fileImg'});
 			}
 		},
 		updated () {

@@ -31,7 +31,7 @@
 				    		</div>
 				    		<div>
 				    			<span class="text-light-grey span-3 inline tr">参与人</span>
-				    			<span>:<span class="pl-10 text-blue inline" v-for="(people,index) in item.csrReportSonList" :key="index" @click="enterApp(people)">{{people.reportParticipantname}}</span></span>
+				    			<span>:<span class="pl-10 text-blue inline" v-for="(people,index) in item.csrReportSonList" :key="index" @click="enterApp(people, item)">{{people.reportParticipantname}}</span></span>
 				    		</div>
 				    	</div>
 				    	<div class="fr project-index tc text-white">
@@ -40,7 +40,7 @@
 				    </div>
 			    </div>
 			    <div v-else>
-			    	<nodata :nodata="nodata" :refresh="projectSearch"></nodata>
+			    	<nodata :nodata="nodata" :refresh="projectSearch" :type="types"></nodata>
 			    </div>
 			    <div class="pull-up" data-type="all">
 					上拉加载更多
@@ -62,20 +62,25 @@
 			return {
 				projectList: [],
 				curworkIscroll: '',
+				isPullDown: false,
+				types: true,
 				searchName: '',
-				nodata: ''
+				nodata: '暂无数据',
+				pageCount: 1
 			};
 		},
 		created () {
+			this.$store.commit('loadingShow');
 			this.$store.commit('changeTitle', 'CSR工作');
 			this.getCsrWork();
-			// this.$store.commit('loadingHide')
+			// this.$store.commit('loadingHide');
 		},
 		watch: {
 		},
 		methods: {
 			//	进入审批报告
-			enterApp: function (people) {
+			enterApp: function (people, item) {
+				people.projectName = item.projectName;
 				if (people.thisStatus === '2') {
 					this.$router.push({name: 'appReport', query: people});
 				} else {
@@ -83,67 +88,53 @@
 				}
 			},
 			getCsrWork: function (name) {
-				this.$store.commit('loadingShow');
-				const self = this;
-				this.$post({
-					url: '/app/mainReq?reqUrl=/mobile/csrReport/list',
-					params: {
-						projectName: name
-					}
-				}).then(res => {
-					if (res.result) {
-						console.log(res);
-						if (res.data && res.data.csrReportList && res.data.csrReportList.length > 0) {
-							self.projectList = res.data.csrReportList;
-						} else {
-							self.projectList = [];
-							this.nodata = '暂无数据';
-						}
-						this.$store.commit('loadingHide');
-					} else {
-						self.projectList = [];
-						this.nodata = '网络请求失败，请重新尝试';
-					}
-				});
-			},
-			//	下拉刷新
-			pullRefresh: function () {
 				const self = this;
 				return this.$post({
 					url: '/app/mainReq?reqUrl=/mobile/csrReport/list',
 					params: {
-						projectName: name
+						projectName: name,
+						pageSize: 6,
+						pageNo: this.pageCount
 					}
 				}).then(res => {
+					const preventResult = self.projectList.length;
+					//	当成功返回数据
 					if (res.result) {
 						console.log(res);
+						//	当数据成功并且有数据时候执行
 						if (res.data && res.data.csrReportList && res.data.csrReportList.length > 0) {
-							self.projectList = res.data.csrReportList;
+							//	判断数据是否是上拉加载还是刷新
+							if (self.isPullDown) {
+								self.projectList = self.projectList.concat(res.data.csrReportList);
+								self.isPullDown = false;
+							} else {
+								self.projectList = res.data.csrReportList;
+							}
+							this.pageCount += 1;
 						} else {
 							self.projectList = [];
 							this.nodata = '暂无数据';
+							this.types = true;
 						}
+						this.$store.commit('loadingHide');
 					} else {
+						//	当返回数据失败时候，展示相应的
 						self.projectList = [];
 						this.nodata = '网络请求失败，请重新尝试';
+						this.types = false;
 					}
-					// return res;
+					return preventResult === self.projectList.length;
 				});
+			},
+			//	下拉刷新
+			pullRefresh: function () {
+				this.pageCount = 1;
+				return this.getCsrWork();
 			},
 			// 加载更多
 			pullMore: function () {
-				// this.projectList.push({
-				// 	projectName: '项目名称',
-				// 	report: '公司领导',
-				// 	reportRelTime: '2017-10-2 12:20',
-				// 	work: '完成',
-				// 	people: [{
-				// 		peoplename: '张彦军'
-				// 	}, {
-				// 		peoplename: '阳光'
-				// 	}],
-				// 	status: '1'
-				// });
+				this.isPullDown = true;
+				return this.getCsrWork();
 			},
 			//	搜索框
 			projectSearch: function () {
