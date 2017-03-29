@@ -34,6 +34,8 @@ Vue.use(VueResource);
 // 引用filter
 import filter from './config/filter';
 Vue.filter('csrWorkStatus', filter.csrworkStatus);
+Vue.filter('filesNum', filter.filesNum);
+Vue.filter('filesAgree', filter.filesAgree);
 
 //	引用了mintUI库
 import MintUI from 'mint-ui';

@@ -91,14 +91,12 @@
 				this.$post({
 					url: '/app/mainReq?reqUrl=/dynrap/hnabCsrDynrAp/approvalResult',
 					params: {
-						id: this.$route.query.id,
-						hnabCsrApprovalInfo: {
-							status: resultObj.result,
-							remarks: resultObj.resultDetail,
-							parentid: this.$route.query.id,
-							thisStep: this.$route.query.thisStep
-						},
-						mobileLogin: true
+						'id': this.$route.query.id,
+						'hnabCsrApprovalInfo.status': resultObj.result,
+						'hnabCsrApprovalInfo.remarks': resultObj.resultDetail,
+						'hnabCsrApprovalInfo.parentid': this.$route.query.id,
+						'hnabCsrApprovalInfo.thisStep': this.$route.query.thisStep,
+						'mobileLogin': true
 					}
 				}).then(res => {
 					//	当成功返回数据
@@ -113,12 +111,11 @@
 			},
 			//	进入历史审批报告
 			enterHisReport: function () {
-				this.$router.push({
-					path: '/index/csr/hisreport',
-					query: {
-						project: this.appReportDetail.name,
-						user: this.appReportDetail.people
-					}});
+				if (this.readonly) {
+					this.$router.replace({name: 'hisReport', query: this.$route.query});
+				} else {
+					this.$router.push({name: 'hisReport', query: this.$route.query});
+				}
 			},
 			//	返回点击结果
 			reportResult: function (bool) {
@@ -133,10 +130,10 @@
 					this.readonly = true;
 				}, action => {});
 				// this.$store.commit('tipShow');
-				// this.reportOperate({
-				// 	result: 1,
-				// 	resultDetail: 'this is resultDetail'
-				// });
+				this.reportOperate({
+					result: 1,
+					resultDetail: 'this is resultDetail'
+				});
 			},
 			//	进入文件预览
 			enterFileImg: function (url) {

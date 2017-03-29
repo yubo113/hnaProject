@@ -11,7 +11,7 @@
 					下拉刷新
 				</div>
 				<div v-if="projectList.length > 0">
-				    <div class="project-detail row bg-white" v-bind:class="{ ' project-status-success': item.workStautsCode!=='5', ' project-status-failed': item.workStautsCode==='5' }" v-for="(item,index) in projectList" :key="index">
+				    <div class="project-detail row bg-white project-status-failed" v-bind:class="{ ' project-status-success': item.workStautsCode==='5' | item.workStautsCode==='2' }" v-for="(item,index) in projectList" :key="index">
 				    	<div class="fl project-text pt-10 pb-10">
 				    		<div>
 				    			<span class="text-light-grey span-3 inline tr">项目名称</span>
