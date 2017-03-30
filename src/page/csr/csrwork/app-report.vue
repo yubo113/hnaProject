@@ -16,19 +16,24 @@
 			    			<span class="text-light-grey span-2 inline tr">参与人</span>
 			    			<span class="span-7 textOverflow inline app-report-text">{{ $route.query.reportParticipantname }}</span>
 			    		</div>
-			    		<div class="mb-10">
-			    			<span class="text-light-grey span-2 inline tr vertical-top">审批内容</span>
-			    			<div class="span-7 inline app-report-text">
-			    				<div v-for="(fileItem, index) in appReportDetail.file" :key="index" class="mb-10">
-			    					<span>{{  fileItem.detailType }}</span>
-			    					<span class="text-dark-grey">({{  fileItem.detailTime }})</span>
-			    					<span class="text-red pl-10 pr-10" @click="enterFileImg()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
-			    				</div>
-			    			</div>
+			    		<div class="mb-20">
+			    			<detailFirst :detail="detail" v-if="detailStep === 1"></detailFirst>
+				    		<detailSecond :detail="detail" v-if="$route.query.thisStep === 2"></detailSecond>
+				    		<detailThird :detail="detail" v-if="$route.query.thisStep === 3"></detailThird>
+				    		<detailFourth :detail="detail" v-if="$route.query.thisStep === 4"></detailFourth>
+				    		<detailFifth :detail="detail" v-if="$route.query.thisStep === 5"></detailFifth>
+				    		<detailSixth :detail="detail" v-if="$route.query.thisStep === 6"></detailSixth>
+				    		<detailSeventh :detail="detail" v-if="$route.query.thisStep === 7"></detailSeventh>
+				    		<detailEighth :detail="detail" v-if="$route.query.thisStep === 8"></detailEighth>
+				    		<detailNinth :detail="detail" v-if="$route.query.thisStep === 9"></detailNinth>
 			    		</div>
 			    		<div class="mb-20">
 			    			<span class="text-light-grey span-2 inline tr vertical-top">审批意见</span>
-			    			<span class="span-7 textOverflow inline app-report-text"><textarea style="width:100%" rows="8" :readonly="readonly"></textarea></span>
+			    			<span class="span-7 textOverflow inline app-report-text"><textarea style="width:100%;"  v-bind:class="{ 'error': textError }" rows="8" :readonly="readonly" v-model="getAdvice"></textarea></span>
+			    		</div>
+			    		<div class="mb-20" v-if="textError">
+			    			<span class="text-light-grey span-2 inline tr"></span>
+			    			<span class="inline app-report-text text-red">*这是必填字段</span>
 			    		</div>
 			    		<div class="mb-20">
 			    			<span class="text-light-grey span-2 inline tr">审批结果</span>
@@ -53,7 +58,17 @@
 <script>
 	import IScroll from 'Iscroll';
 	import { MessageBox } from 'mint-ui';
+	import detailFirst from './csrcomponents/csr-detail-first.vue';
+	import detailSecond from './csrcomponents/csr-detail-second.vue';
+	import detailThird from './csrcomponents/csr-detail-third.vue';
+	import detailFourth from './csrcomponents/csr-detail-fourth.vue';
+	import detailFifth from './csrcomponents/csr-detail-fifth.vue';
+	import detailSixth from './csrcomponents/csr-detail-sixth.vue';
+	import detailSeventh from './csrcomponents/csr-detail-seventh.vue';
+	import detailEighth from './csrcomponents/csr-detail-eighth.vue';
+	import detailNinth from './csrcomponents/csr-detail-ninth.vue';
 	export default {
+		components: {'detailFirst': detailFirst, 'detailSecond': detailSecond, 'detailThird': detailThird, 'detailFourth': detailFourth, 'detailFifth': detailFifth, 'detailSixth': detailSixth, 'detailSeventh': detailSeventh, 'detailEighth': detailEighth, 'detailNinth': detailNinth},
 		data () {
 			return {
 				appReportIscroll: '',
@@ -70,22 +85,48 @@
 					detail: '关于机场建设的建议.PDF'
 				},
 				reported: true,
-				readonly: false
+				readonly: false,
+				getAdvice: '',
+				textError: false,
+				detail: {},
+				detailStep: ''
 			};
 		},
 		created () {
-			// this.$store.commit('changeTitle', 'CSR动态报告审批');
-		},
-		activated () {
+			// this.$store.commit('loadingShow');
 			this.$store.commit('changeTitle', 'CSR动态报告审批');
-			this.reported = true;
-			this.readonly = false;
-	    },
-	    deactivated () {
-	    },
+			this.getReport();
+		},
+		// activated () {
+		// 	this.$store.commit('changeTitle', 'CSR动态报告审批');
+		// 	this.reported = true;
+		// 	this.readonly = false;
+	 //    },
+	    // deactivated () {
+	    // },
 		watch: {
 		},
 		methods: {
+			//	获取展示内容
+			getReport: function () {
+				const self = this;
+				const userId = this.$route.query.thisStep;
+				this.$post({
+					url: '/app/mainReq?reqUrl=/mobile/csrReport/approvalDetail',
+					params: {
+						id: this.$route.query.id
+					}
+				}).then(res => {
+					if (res.result) {
+						if (res.data[`step${userId}`]) {
+							self.detail = res.data[userId];
+							self.detailStep = userId;
+							console.log(res.data);
+							this.$store.commit('loadingHide');
+						}
+					}
+				});
+			},
 			//	审批结果发送
 			reportOperate: function (resultObj) {
 				this.$post({
@@ -102,12 +143,28 @@
 					//	当成功返回数据
 					if (res.result) {
 						console.log(res);
-						this.$store.commit('loadingHide');
+						this.reported = false;
+						this.readonly = true;
 					} else {
 						console.log(res);
 						//	当返回数据失败时候，展示相应的
 					}
 				});
+			},
+			//	向后台传送值
+			returnResult: function (value) {
+				if (value === '同意') {
+					return 1;
+				} else {
+					return 0;
+				}
+			},
+			//	判断输入是否为空或者全部为空格，是返回true
+			errorText: function () {
+				if (this.getAdvice === '') return true;
+				const regu = '^[ ]+$';
+				const re = new RegExp(regu);
+				return re.test(this.getAdvice);
 			},
 			//	进入历史审批报告
 			enterHisReport: function () {
@@ -120,20 +177,21 @@
 			//	返回点击结果
 			reportResult: function (bool) {
 				const self = this;
-				MessageBox.confirm('确定执行此操作', '提醒').then(action => {
-					if (bool) {
-						self.resultText = '同意';
-					} else {
-						self.resultText = '拒绝';
-					}
-					this.reported = false;
-					this.readonly = true;
-				}, action => {});
+				self.textError = self.errorText();
+				if (!self.textError) {
+					MessageBox.confirm('确定执行此操作', '提醒').then(action => {
+						if (bool) {
+							self.resultText = '同意';
+						} else {
+							self.resultText = '拒绝';
+						}
+						self.reportOperate({
+							result: self.returnResult(self.resultText),
+							resultDetail: self.getAdvice
+						});
+					}, action => {});
+				}
 				// this.$store.commit('tipShow');
-				this.reportOperate({
-					result: 1,
-					resultDetail: 'this is resultDetail'
-				});
 			},
 			//	进入文件预览
 			enterFileImg: function (url) {

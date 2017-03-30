@@ -70,10 +70,10 @@
 			};
 		},
 		created () {
-			this.$store.commit('loadingShow');
 			this.$store.commit('changeTitle', 'CSR工作');
-			this.getCsrWork();
 			// this.$store.commit('loadingHide');
+			this.$store.commit('loadingShow');
+			this.getCsrWork();
 		},
 		watch: {
 		},
@@ -142,7 +142,9 @@
 			}
 		},
 		activated () {
+			this.$store.commit('loadingShow');
 			this.$store.commit('changeTitle', 'CSR工作');
+			this.getCsrWork();
 	    },
 	    deactivated () {
 	    },

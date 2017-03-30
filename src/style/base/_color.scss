@@ -1,4 +1,6 @@
 $red : #d80c18;
+$primary: #d71819 !default;
+$error: rgba($red, .1);
 $white : #fff;
 $green : #008b14;
 
@@ -29,6 +31,10 @@ $dark-grey: #a0a0a0;
 }
 .text-detail {
 	color: #292929;
+}
+.error {
+	background-color: $error;
+	border-color: $red;
 }
 
 .bg-white {
