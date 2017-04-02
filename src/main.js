@@ -36,11 +36,14 @@ import filter from './config/filter';
 Vue.filter('csrWorkStatus', filter.csrworkStatus);
 Vue.filter('filesNum', filter.filesNum);
 Vue.filter('filesAgree', filter.filesAgree);
-
+Vue.filter('timeStrFormat', filter.timeStrFormat);
+Vue.filter('timeStrAllFormat', filter.timeStrAllFormat);
 //	引用了mintUI库
-import MintUI from 'mint-ui';
+// import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
-Vue.use(MintUI);
+// Vue.use(MintUI);
+import { DatetimePicker } from 'mint-ui';
+Vue.component(DatetimePicker.name, DatetimePicker);
 // import { Loadmore } from 'mint-ui';
 // 	Vue.component(Loadmore.name, Loadmore);
 // import { Indicator , InfiniteScroll } from 'mint-ui';
@@ -48,12 +51,18 @@ Vue.use(MintUI);
 
 // 引用公用方法
 import api from './config/api';
-Vue.prototype.loadmore = api.loadmore;
 //	ajax方法封装
 Vue.prototype.$get = api.get;
 Vue.prototype.$post = api.post;
 Vue.prototype.$put = api.put;
 Vue.prototype.$delete = api.delete;
+Vue.prototype.initTop = api.initTop;
+Vue.prototype.initChartHeight = api.initChartHeight;
+Vue.prototype.initIscroll = api.initIscroll;
+Vue.prototype.loadmore = api.loadmore;
+Vue.prototype.initChart = api.initChart;
+Vue.prototype.initSelect = api.initSelect;
+
 /*	eslint-disable no-new	*/
 new Vue({
 	router,

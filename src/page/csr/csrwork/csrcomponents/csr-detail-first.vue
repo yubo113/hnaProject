@@ -34,11 +34,12 @@
 				timeout: ''
 			};
 		},
+		methods: {
+			enterFileImg: function () {
+				this.$router.push({name: 'fileImg'});
+			}
+		},
 		mounted () {
-			// const self = this;
-			// this.timeout = setTimeout(function () {
-			// 	self.$store.commit('loadingHide');
-			// }, 1000);
 		},
 		beforeDestroy () {
 			// console.log('this is de');

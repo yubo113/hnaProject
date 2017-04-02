@@ -20,8 +20,8 @@ module.exports = {
   },
   externals: {
     jquery: 'window.$',
-    Iscroll: 'IScroll'
-
+    Iscroll: 'IScroll',
+    Eking: 'window.eking'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],

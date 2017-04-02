@@ -22,8 +22,8 @@
                 <div class="clearfix index-con pb-30">
                     <div class="fl index-item tc textOverflow pt-10 pb-10" v-for="item in lists">
                         <div>
-                        <!-- <router-link :to="'/index' + item.router"> -->
-                            <router-link to="/index/csr">
+                        <router-link :to="'/index' + item.router">
+                            <!-- <router-link to="/index/csr"> -->
                                 <div>
                                     <img :src="item.imgurl">
                                 </div>

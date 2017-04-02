@@ -5,6 +5,7 @@ $white : #fff;
 $green : #008b14;
 
 $black : #2a2a2a;
+$middle-black: #666;
 
 $orange : #f6720a;
 
@@ -32,6 +33,9 @@ $dark-grey: #a0a0a0;
 .text-detail {
 	color: #292929;
 }
+.text-mblack {
+	color: $middle-black;
+}
 .error {
 	background-color: $error;
 	border-color: $red;
@@ -54,4 +58,7 @@ $dark-grey: #a0a0a0;
 }
 .bg-green {
 	background-color: $green;
+}
+.bg-select-wrap {
+	background-color: #f2f2f2;
 }

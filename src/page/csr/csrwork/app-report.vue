@@ -17,15 +17,15 @@
 			    			<span class="span-7 textOverflow inline app-report-text">{{ $route.query.reportParticipantname }}</span>
 			    		</div>
 			    		<div class="mb-20">
-			    			<detailFirst :detail="detail" v-if="detailStep === 1"></detailFirst>
-				    		<detailSecond :detail="detail" v-if="$route.query.thisStep === 2"></detailSecond>
-				    		<detailThird :detail="detail" v-if="$route.query.thisStep === 3"></detailThird>
-				    		<detailFourth :detail="detail" v-if="$route.query.thisStep === 4"></detailFourth>
-				    		<detailFifth :detail="detail" v-if="$route.query.thisStep === 5"></detailFifth>
-				    		<detailSixth :detail="detail" v-if="$route.query.thisStep === 6"></detailSixth>
-				    		<detailSeventh :detail="detail" v-if="$route.query.thisStep === 7"></detailSeventh>
-				    		<detailEighth :detail="detail" v-if="$route.query.thisStep === 8"></detailEighth>
-				    		<detailNinth :detail="detail" v-if="$route.query.thisStep === 9"></detailNinth>
+			    			<detailFirst :detail="detail" v-if="detailStep == 1"></detailFirst>
+				    		<detailSecond :detail="detail" v-if="detailStep == 2"></detailSecond>
+				    		<detailThird :detail="detail" v-if="detailStep == 3"></detailThird>
+				    		<detailFourth :detail="detail" v-if="detailStep == 4"></detailFourth>
+				    		<detailFifth :detail="detail" v-if="detailStep == 5"></detailFifth>
+				    		<detailSixth :detail="detail" v-if="detailStep == 6"></detailSixth>
+				    		<detailSeventh :detail="detail" v-if="detailStep == 7"></detailSeventh>
+				    		<detailEighth :detail="detail" v-if="detailStep == 8"></detailEighth>
+				    		<detailNinth :detail="detail" v-if="detailStep == 9"></detailNinth>
 			    		</div>
 			    		<div class="mb-20">
 			    			<span class="text-light-grey span-2 inline tr vertical-top">审批意见</span>
@@ -72,38 +72,22 @@
 		data () {
 			return {
 				appReportIscroll: '',
-				appReportDetail: {
-					name: 'APP创建工作',
-					people: '张彦军',
-					file: [{
-						detailType: '拟写招标文件',
-						detailTime: '3h'
-					}, {
-						detailType: '修改招标文件',
-						detailTime: '2h'
-					}],
-					detail: '关于机场建设的建议.PDF'
-				},
+				appReportDetail: {},
 				reported: true,
 				readonly: false,
 				getAdvice: '',
 				textError: false,
-				detail: {},
+				detail: {
+					csrApproval: {}
+				},
 				detailStep: ''
 			};
 		},
 		created () {
-			// this.$store.commit('loadingShow');
+			this.$store.commit('loadingShow');
 			this.$store.commit('changeTitle', 'CSR动态报告审批');
 			this.getReport();
 		},
-		// activated () {
-		// 	this.$store.commit('changeTitle', 'CSR动态报告审批');
-		// 	this.reported = true;
-		// 	this.readonly = false;
-	 //    },
-	    // deactivated () {
-	    // },
 		watch: {
 		},
 		methods: {
@@ -119,10 +103,12 @@
 				}).then(res => {
 					if (res.result) {
 						if (res.data[`step${userId}`]) {
-							self.detail = res.data[userId];
+							self.detail.csrApproval = res.data[`step${userId}`];
 							self.detailStep = userId;
-							console.log(res.data);
 							this.$store.commit('loadingHide');
+							console.log(self.detailStep);
+							console.log(self.$route.query.id);
+							console.log(self.detail.csrApproval);
 						}
 					}
 				});

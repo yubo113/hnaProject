@@ -1,4 +1,8 @@
 import $ from 'jquery';
+import IScroll from 'Iscroll';
+const Highcharts = require('highcharts');
+// 在 Highcharts 加载之后加载功能模块
+require('highcharts/modules/exporting')(Highcharts);
 
 var root = process.env.API_ROOT;
 
@@ -93,6 +97,41 @@ export default {
             };
         });
     },
+    /*  初始化iscroll高度
+    *   eleId：jquery写法的元素; eleIscroll(包裹iscrol外层wrap): 元素名
+    *   返回高度
+    */
+    initTop: function (eleId, eleIscroll) {
+        const topNum = document.querySelector(eleIscroll).offsetTop;
+        document.querySelector(eleId).style.top = `${topNum}px`;
+        return topNum;
+    },
+    /*  初始化iscroll高度
+    *   eleId：jquery写法的元素; eleIscroll(包裹iscrol外层wrap): 元素名; eleChart:包裹chart元素
+    */
+    initChartHeight: function (eleId, eleIscroll, eleChart) {
+        const topNum = this.initTop(eleId, eleIscroll);
+        const bodyHeight = document.querySelector('body').clientHeight;
+        document.querySelector(eleChart).style.height = `${bodyHeight - topNum}px`;
+    },
+    /*  创建iscroll，
+    *   iscrollContainer: 包含iscroll对象的容器元素
+    *   返回iscroll实例
+    */
+    initIscroll: function (iscrollContainer) {
+        const iscroll = new IScroll(iscrollContainer, {
+                click: true,
+                probeType: 2,
+                bounceTime: 250,
+                bounceEasing: 'quadratic',
+                interactiveScrollbars: false,
+                hideScrollbar: false
+            });
+        return iscroll;
+    },
+    /*  上拉加载，下拉刷新
+    *   iscroll：iscroll对象;  refresFn: 刷新函数; loadFn: 加载函数
+    */
     loadmore: function (iscroll, refresFn, loadFn) {
         var $pullUp = $('.pull-up');
         var $pullDown = $('.pull-down');
@@ -191,6 +230,24 @@ export default {
             } else {
                 $pullDown.removeClass('show loading');
             }
+        });
+    },
+    /*  初始化图表
+    *   eleId：jquery写法的元素;  parmas: 图表参数
+    *   返回图表实例
+    */
+    initChart: function (eleId, parmas) {
+        const charts = new Highcharts.Chart(eleId, parmas);
+        return charts;
+    },
+    /*  加载select2
+    *   eleId：jquery写法的元素;  parmas: 图表参数
+    *   返回图表实例
+    */
+    initSelect: function (eleId) {
+        $(eleId).select2({
+            width: '100%',
+            minimumResultsForSearch: -1
         });
     }
 };

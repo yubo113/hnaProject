@@ -53,12 +53,6 @@
                     e.preventDefault();
                 });
 			}
-		},
-		activated () {
-	      console.log(3);
-	    },
-	    deactivated () {
-	      console.log(4);
-	    }
+		}
 	};
 </script>

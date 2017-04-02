@@ -14,6 +14,10 @@ import hisReport from '../page/csr/csrwork/history-report.vue';
 import fileImg from '../components/fileImg.vue';
 // projectDevelop(项目发展)
 import projectDevelop from '../page/projectDevelop/projectDevelop.vue';
+import projectStatistics from '../page/projectDevelop/projectstatistics/project-statistics.vue';
+import partnerSearch from '../page/projectDevelop/projectstatistics/partner-search.vue';
+import charitablePartner from '../page/projectDevelop/projectstatistics/charitable-partner.vue';
+import joinHistory from '../page/projectDevelop/projectstatistics/join-history.vue';
 
 // diffuseMessage(传播事务)
 import diffuseMessage from '../page/diffuseMessage/diffuseMessage.vue';
@@ -57,7 +61,13 @@ export default [
   {
     path: '/index/projectDevelop',
     name: 'projectDevelop',
-    component: projectDevelop
+    component: projectDevelop,
+    children: [
+      { path: '/index/projectDevelop/projectStatistics', name: 'projectstatistics', component: projectStatistics },
+      { path: '/index/projectDevelop/partnerSearch', name: 'partnersearch', component: partnerSearch },
+      { path: '/index/projectDevelop/charitablePartner', name: 'charitablepartner', component: charitablePartner },
+      { path: '/index/projectDevelop/joinHistory', name: 'joinHistory', component: joinHistory }
+    ]
   },
   //  传播事务
   {

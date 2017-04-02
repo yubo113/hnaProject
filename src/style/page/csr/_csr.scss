@@ -1,5 +1,5 @@
 @mixin project-status ($color){
-	border-top:3px solid $color;
+	border-top:3px solid $color !important;
 	.project-index {
 		background-color:$color;
 	}

@@ -5,11 +5,65 @@
 .row:after {
     clear: both;
 }
+.clearfix:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  height: 0;
+  font-size: 0;
+}
+
+.noSelect {
+  user-select: none;
+  -o-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+}
+
+.textOverflow {
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.none {
+  display: none !important;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.tl {
+  text-align: left;
+}
+
+.tr {
+  text-align: right;
+}
+
+.tc {
+  text-align: center;
+}
+
+.nodata {
+  margin-top: 1.5rem;
+  font-size: 0.25rem;
+}
 .inline {
 	display: inline-block;
 	vertical-align: middle;
 }
-
+.inblock {
+   display: inline-block; 
+}
 .overflow {
 	overflow: hidden;
 }
@@ -67,7 +121,7 @@
   vertical-align: text-top !important;
 }
 
-.vertical-text-bootom {
+.vertical-text-bottom {
   vertical-align: text-bottom !important; 
 }
 
@@ -175,6 +229,12 @@ $spacing-property-map: ( m: margin, mt: margin-top, mr: margin-right, ml: margin
 	.span-#{$size} {
 		width: $size * 10%;
 	}
+}
+// 宽度比例 最高12层(相当于100%)
+@for $size from 0 through 12 {
+    .width-#{$size} {
+        width: $size * 100% / 12;
+    }
 }
 // @mixin widthRate($color:$pipe-grey) {
 // 	width

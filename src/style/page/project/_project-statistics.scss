@@ -1,0 +1,76 @@
+.project-statis-header {
+	background-color:#3a3a3a;
+}
+.statis-money {
+	padding: 0.05rem 0;
+	background-color: rgba($white,.3);
+}
+
+.static-tab-wrap {
+	background-color: #f3f0e9;
+	border: 2px solid $red;
+	.static-tab {
+		padding:0.05rem 0;
+	}
+	.static-tab-middle {
+		border-left: 2px solid $red;
+		border-right: 2px solid $red;
+	}
+	.checked-tab {
+		color: $white;
+		background-color: $red;
+	}
+}
+.container-chart {
+	max-width: 100%;
+}
+
+// partner-search
+.partner-search {
+	.partner-search-header {
+		font-size: 0.25rem;
+	    border-top: 2px solid $dark-grey;
+	}
+	.partner-search-footer {
+		font-size: 0.25rem;
+	}
+	.static-date {
+		width: 100%;
+	    display: block;
+	    height: 28px;
+		background-color: #fff;
+	    border: 1px solid #aaa;
+	    border-radius: 4px;
+	    padding: 0 50px 0 10px;
+	}
+	.partner-search-text {
+		font-size: 14px;
+		@extend .text-light-grey;
+	}
+}
+.calendar-container {
+	position: relative;
+	.calendar {
+		position: absolute;
+		right:12px;
+		top:0;
+		line-height: 28px;
+		font-size:19px!important;
+	}
+}
+//	charitable-partner
+.charitable-status {
+	@include project-status(#ff7461)
+}
+
+//	join-history
+.join-header {
+	box-shadow: 0rem 0.05rem 0.01rem #bbb8b3;
+}
+.join-title {
+	font-size: 0.25rem;
+	color: #3b3b3b;
+}
+.join-text {
+	line-height: 0.4rem;
+}

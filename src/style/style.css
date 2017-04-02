@@ -4,6 +4,7 @@
 @import "base/color";
 @import "base/quick";
 @import "base/media";
+@import "base/font.scss";
 
 /*components*/
 @import "components/iscrolls";
@@ -16,3 +17,5 @@
 
 @import "page/csr/csr";
 @import "page/csr/app-report";
+
+@import "page/project/project-statistics";

@@ -11,7 +11,7 @@
 					下拉刷新
 				</div>
 				<div v-if="projectList.length > 0">
-				    <div class="project-detail row bg-white project-status-failed" v-bind:class="{ ' project-status-success': item.workStautsCode==='5' | item.workStautsCode==='2' }" v-for="(item,index) in projectList" :key="index">
+				    <div class="project-detail row bg-white charitable-status" v-for="(item,index) in projectList" :key="index">
 				    	<div class="fl project-text pt-10 pb-10">
 				    		<div>
 				    			<span class="text-light-grey span-3 inline tr">项目名称</span>
@@ -30,8 +30,8 @@
 				    			<span>:<span class="pl-10">{{ item.workStauts }}</span></span>
 				    		</div>
 				    		<div>
-				    			<span class="text-light-grey span-3 inblock tr vertical-top">参与人</span>
-				    			<span class="span-6 inblock vertical-top">:<span class="pl-10 text-blue inblock" v-for="(people,index) in item.csrReportSonList" :key="index" @click="enterApp(people, item)">{{people.reportParticipantname}}</span></span>
+				    			<span class="text-light-grey span-3 inline tr">参与人</span>
+				    			<span>:<span class="pl-10 text-blue inline" v-for="(people,index) in item.csrReportSonList" :key="index" @click="enterApp(people, item)">{{people.reportParticipantname}}</span></span>
 				    		</div>
 				    	</div>
 				    	<div class="fr project-index tc text-white">
@@ -47,13 +47,12 @@
 				</div>
 			</div>
 			</div>
-			<returntop :iscroll='curworkIscroll'></returntop>
+			<returntop :iscroll='chaPartnerIscroll'></returntop>
 		</div>
 	</div>
 </template>
 
 <script>
-	import IScroll from 'Iscroll';
 	import returntop from '../../../components/returntop.vue';
 	import nodata from '../../../components/nodata.vue';
 	export default {
@@ -61,7 +60,7 @@
 		data () {
 			return {
 				projectList: [],
-				curworkIscroll: '',
+				chaPartnerIscroll: '',
 				isPullDown: false,
 				types: true,
 				searchName: '',
@@ -70,7 +69,7 @@
 			};
 		},
 		created () {
-			this.$store.commit('changeTitle', 'CSR工作');
+			this.$store.commit('changeTitle', '公益项目合作伙伴');
 			// this.$store.commit('loadingHide');
 			this.$store.commit('loadingShow');
 			this.getCsrWork();
@@ -141,34 +140,27 @@
 				this.getCsrWork(this.searchName);
 			}
 		},
-		// activated () {
-		// 	this.$store.commit('loadingShow');
-		// 	this.$store.commit('changeTitle', 'CSR工作');
-		// 	this.getCsrWork();
-	 //    },
-	 //    deactivated () {
-	 //    },
+		activated () {
+			this.$store.commit('loadingShow');
+			this.$store.commit('changeTitle', 'CSR工作');
+			this.getCsrWork();
+	    },
+	    deactivated () {
+	    },
 		updated () {
 			//	刷新iscroll
-			if (this.curworkIscroll) {
-				this.curworkIscroll.refresh();
+			if (this.chaPartnerIscroll) {
+				this.chaPartnerIscroll.refresh();
 			}
 		},
 		mounted () {
-			document.querySelector('#wrapper').style.top = `${document.querySelector('.csrwork-iscroll').offsetTop}px`;
-			this.curworkIscroll = new IScroll('#wrapper', {
-				click: true,
-				probeType: 2,
-                bounceTime: 250,
-                bounceEasing: 'quadratic',
-                interactiveScrollbars: false,
-                hideScrollbar: false
-			});
-			this.loadmore(this.curworkIscroll, this.pullRefresh, this.pullMore);
+			this.initTop('#wrapper', '.csrwork-iscroll');
+			this.chaPartnerIscroll = this.initIscroll('#wrapper');
+			this.loadmore(this.chaPartnerIscroll, this.pullRefresh, this.pullMore);
 		},
 		beforeDestroy () {
-			this.curworkIscroll.destroy();
-			this.curworkIscroll = null;
+			this.chaPartnerIscroll.destroy();
+			this.chaPartnerIscroll = null;
 		}
 	};
 </script>
