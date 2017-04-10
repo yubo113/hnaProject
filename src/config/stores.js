@@ -2,6 +2,9 @@ import siderbarMoudles from '../store/modules/siderbar';
 import titlenameMoudles from '../store/modules/titlename';
 import loadingMoudles from '../store/modules/loading';
 import returntopMoudles from '../store/modules/returntop';
+import filelistMoudles from '../store/modules/filelist';
+import searchresultMoudles from '../store/modules/searchresult';
+
 export default {
 	state: {
 		status: false
@@ -15,6 +18,8 @@ export default {
 		siderbar: siderbarMoudles,
 		titlename: titlenameMoudles,
 		loading: loadingMoudles,
-		returntop: returntopMoudles
+		returntop: returntopMoudles,
+		filelist: filelistMoudles,
+		searchResult: searchresultMoudles
 	}
 };

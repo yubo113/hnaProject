@@ -7,7 +7,7 @@
     		</div>
     		<div class="mb-20">
     			<span class="text-light-grey span-2 inline tr">参与人</span>
-    			<span class="span-7 textOverflow inline app-report-text">{{ this.$route.query.reportParticipantname }}</span>
+    			<span class="span-7 textOverflow inline app-report-text">{{ this.$route.query.trainingStaffName }}</span>
     		</div>
 		</div>
 	    <div class="iscroll">
@@ -26,7 +26,7 @@
 						<div class="bg-white mb-20 his-main">
 							<!-- STEP1展示缩略图 -->
 							<div v-if="openIndex !== hisList.index.step1">
-								<detailFirst :detail="hisList.step1" class="pt-10 pb-10"></detailFirst>
+								<short-first :step="hisList.step1"></short-first>
 					    		<div class="pb-10">
 				    				<span class="span-2 inline"></span>
 					    			<span class="span-5 inline text-light-grey app-report-text">......</span>
@@ -62,7 +62,7 @@
 						<div class="bg-white mb-20 his-main">
 						<!-- STEP2缩略图 -->
 							<div v-if="openIndex !== hisList.index.step2">
-								<detailSecond :detail="hisList.step2" :short="true" class="pt-10 pb-10"></detailSecond>
+								<short-second :step="hisList.step2"></short-second>
 					    		<div class="pb-10">
 					    			<span class="span-2 inline"></span>
 					    			<span class="span-5 inline text-light-grey app-report-text">......</span>
@@ -72,7 +72,7 @@
 				    		<!-- STEP2详情 -->
 				    			<div class="his-detail bg-white" v-for="detail in hisList.step2Detail">
 						    		<div class="pb-10 pt-10">
-						    			<detailSecond :detail="detail" :short="false"></detailSecond>
+						    			<detailSecond :detail="detail"></detailSecond>
 						    		</div>
 						    		<div class="pb-10 pt-10">
 						    			<span class="text-light-grey span-2 inline tr vertical-top">审批意见</span>
@@ -98,7 +98,7 @@
 						<div class="bg-white mb-20 his-main">
 						<!-- STEP3缩略图 -->
 							<div v-if="openIndex !== hisList.index.step3">
-								<detailThird :detail="hisList.step3" :short="true" class="pt-10 pb-10"></detailThird>
+								<short-third :step="hisList.step3"></short-third>
 					    		<div class="pb-10">
 					    			<span class="span-2 inline"></span>
 					    			<span class="span-5 inline text-light-grey app-report-text">......</span>
@@ -108,7 +108,7 @@
 				    		<!-- STEP3详情 -->
 				    			<div class="his-detail bg-white" v-for="detail in hisList.step3Detail">
 						    		<div class="pb-10 pt-10">
-						    			<detailThird :detail="detail" :short="false"></detailThird>
+						    			<detailThird :detail="detail"></detailThird>
 						    		</div>
 						    		<div class="pb-10 pt-10">
 						    			<span class="text-light-grey span-2 inline tr vertical-top">审批意见</span>
@@ -134,7 +134,7 @@
 						<div class="bg-white mb-20 his-main">
 						<!-- STEP4缩略图 -->
 							<div v-if="openIndex !== hisList.index.step4">
-								<detailFourth :detail="hisList.step4" :short="true" class="pt-10 pb-10"></detailFourth>
+								<short-fourth :step="hisList.step4"></short-fourth>
 					    		<div class="pb-10">
 					    			<span class="span-2 inline"></span>
 					    			<span class="span-5 inline text-light-grey app-report-text">......</span>
@@ -144,7 +144,7 @@
 				    		<!-- STEP4详情 -->
 				    			<div class="his-detail bg-white" v-for="detail in hisList.step4Detail">
 						    		<div class="pb-10 pt-10">
-										<detailFourth :detail="detail" :short="false"></detailFourth>
+										<detailFourth :detail="detail"></detailFourth>
 						    		</div>
 						    		<div class="pb-10 pt-10">
 						    			<span class="text-light-grey span-2 inline tr vertical-top">审批意见</span>
@@ -170,7 +170,7 @@
 						<div class="bg-white mb-20 his-main">
 						<!-- STEP5缩略图 -->
 							<div v-if="openIndex !== hisList.index.step5">
-								<detailFifth :detail="hisList.step5" :short="true" class="pt-10 pb-10"></detailFifth>
+								<short-fifth :step="hisList.step5"></short-fifth>
 					    		<div class="pb-10">
 					    			<span class="span-2 inline"></span>
 					    			<span class="span-5 inline text-light-grey app-report-text">......</span>
@@ -180,7 +180,7 @@
 				    		<!-- STEP5详情 -->
 				    			<div class="his-detail bg-white" v-for="detail in hisList.step5Detail">
 						    		<div class="pb-10 pt-10">
-										<detailFifth :detail="detail" :short="false"></detailFifth>
+										<detailFifth :detail="detail"></detailFifth>
 						    		</div>
 						    		<div class="pb-10 pt-10">
 						    			<span class="text-light-grey span-2 inline tr vertical-top">审批意见</span>
@@ -206,7 +206,7 @@
 						<div class="bg-white mb-20 his-main">
 						<!-- STEP6缩略图 -->
 							<div v-if="openIndex !== hisList.index.step6">
-								<detailSixth :detail="hisList.step6" :short="true" class="pt-10 pb-10"></detailSixth>
+								<short-sixth :step="hisList.step6"></short-sixth>
 					    		<div class="pb-10">
 					    			<span class="span-2 inline"></span>
 					    			<span class="span-5 inline text-light-grey app-report-text">......</span>
@@ -216,7 +216,7 @@
 				    		<!-- STEP6详情 -->
 				    			<div class="his-detail bg-white" v-for="detail in hisList.step6Detail">
 						    		<div class="pb-10 pt-10">
-										<detailSixth :detail="detail" :short="false"></detailSixth>
+										<detailSixth :detail="detail"></detailSixth>
 						    		</div>
 						    		<div class="pb-10 pt-10">
 						    			<span class="text-light-grey span-2 inline tr vertical-top">审批意见</span>
@@ -242,7 +242,7 @@
 						<div class="bg-white mb-20 his-main">
 						<!-- STEP7缩略图 -->
 							<div v-if="openIndex !== hisList.index.step7">
-								<detailSeventh :detail="hisList.step7" :short="true" class="pt-10 pb-10"></detailSeventh>
+								<short-seventh :step="hisList.step7"></short-seventh>
 					    		<div class="pb-10">
 					    			<span class="span-2 inline"></span>
 					    			<span class="span-5 inline text-light-grey app-report-text">......</span>
@@ -252,7 +252,7 @@
 				    		<!-- STEP7详情 -->
 				    			<div class="his-detail bg-white" v-for="detail in hisList.step7Detail">
 						    		<div class="pb-10 pt-10">
-										<detailSeventh :detail="detail" :short="false"></detailSeventh>
+										<detailSeventh :detail="detail"></detailSeventh>
 						    		</div>
 						    		<div class="pb-10 pt-10">
 						    			<span class="text-light-grey span-2 inline tr vertical-top">审批意见</span>
@@ -278,7 +278,7 @@
 						<div class="bg-white mb-20 his-main">
 						<!-- STEP8缩略图 -->
 							<div v-if="openIndex !== hisList.index.step8">
-								<detailEighth :detail="hisList.step8" :short="true" class="pt-10 pb-10"></detailEighth>
+								<short-eighth :step="hisList.step8"></short-eighth>
 					    		<div class="pb-10">
 					    			<span class="span-2 inline"></span>
 					    			<span class="span-5 inline text-light-grey app-report-text">......</span>
@@ -288,7 +288,7 @@
 				    		<!-- STEP8详情 -->
 				    			<div class="his-detail bg-white" v-for="detail in hisList.step8Detail">
 						    		<div class="pb-10 pt-10">
-										<detailEighth :detail="detail" :short="false"></detailEighth>
+										<detailEighth :detail="detail"></detailEighth>
 						    		</div>
 						    		<div class="pb-10 pt-10">
 						    			<span class="text-light-grey span-2 inline tr vertical-top">审批意见</span>
@@ -314,7 +314,7 @@
 						<div class="bg-white mb-20 his-main">
 						<!-- STEP9缩略图 -->
 							<div v-if="openIndex !== hisList.index.step9">
-								<detailNinth :detail="hisList.step9" :short="true" class="pt-10 pb-10"></detailNinth>
+								<short-ninth :step="hisList.step9"></short-ninth>
 					    		<div class="pb-10">
 					    			<span class="span-2 inline"></span>
 					    			<span class="span-5 inline text-light-grey app-report-text">......</span>
@@ -324,7 +324,7 @@
 				    		<!-- STEP9详情 -->
 				    			<div class="his-detail bg-white" v-for="detail in hisList.step9Detail">
 						    		<div class="pb-10 pt-10">
-										<detailNinth :detail="detail" :short="false"></detailNinth>
+										<detailNinth :detail="detail"></detailNinth>
 						    		</div>
 						    		<div class="pb-10 pt-10">
 						    			<span class="text-light-grey span-2 inline tr vertical-top">审批意见</span>
@@ -352,44 +352,32 @@
 </template>
 
 <script>
-	// import shortFirst from './csrcomponents/csr-short-first.vue';
-	// import shortSecond from './csrcomponents/csr-short-second.vue';
-	// import shortThird from './csrcomponents/csr-short-third.vue';
-	// import shortFourth from './csrcomponents/csr-short-fourth.vue';
-	// import shortFifth from './csrcomponents/csr-short-fifth.vue';
-	// import shortSixth from './csrcomponents/csr-short-sixth.vue';
-	// import shortSeventh from './csrcomponents/csr-short-seventh.vue';
-	// import shortEighth from './csrcomponents/csr-short-eighth.vue';
-	// import shortNinth from './csrcomponents/csr-short-ninth.vue';
-	import detailFirst from './csrcomponents/csr-detail-first.vue';
-	import detailSecond from './csrcomponents/csr-detail-second.vue';
-	import detailThird from './csrcomponents/csr-detail-third.vue';
-	import detailFourth from './csrcomponents/csr-detail-fourth.vue';
-	import detailFifth from './csrcomponents/csr-detail-fifth.vue';
-	import detailSixth from './csrcomponents/csr-detail-sixth.vue';
-	import detailSeventh from './csrcomponents/csr-detail-seventh.vue';
-	import detailEighth from './csrcomponents/csr-detail-eighth.vue';
-	import detailNinth from './csrcomponents/csr-detail-ninth.vue';
+	import shortFirst from './newsSpokesmanComponents/news-short-1.vue';
+	import shortSecond from './newsSpokesmanComponents/news-short-2.vue';
+	import shortThird from './newsSpokesmanComponents/news-short-3.vue';
+	import shortFourth from './newsSpokesmanComponents/news-short-4.vue';
+	import shortFifth from './newsSpokesmanComponents/news-short-5.vue';
+	import shortSixth from './newsSpokesmanComponents/news-short-6.vue';
+	import detailFirst from './newsSpokesmanComponents/news-detail-1.vue';
+	import detailSecond from './newsSpokesmanComponents/news-detail-2.vue';
+	import detailThird from './newsSpokesmanComponents/news-detail-3.vue';
+	import detailFourth from './newsSpokesmanComponents/news-detail-4.vue';
+	import detailFifth from './newsSpokesmanComponents/news-detail-5.vue';
+	import detailSixth from './newsSpokesmanComponents/news-detail-6.vue';
 	export default {
 		components: {
-			// 'short-first': shortFirst,
-			// 'short-second': shortSecond,
-			// 'short-third': shortThird,
-			// 'short-fourth': shortFourth,
-			// 'short-fifth': shortFifth,
-			// 'short-sixth': shortSixth,
-			// 'short-seventh': shortSeventh,
-			// 'short-eighth': shortEighth,
-			// 'short-ninth': shortNinth,
+			'short-first': shortFirst,
+			'short-second': shortSecond,
+			'short-third': shortThird,
+			'short-fourth': shortFourth,
+			'short-fifth': shortFifth,
+			'short-sixth': shortSixth,
 			'detailFirst': detailFirst,
 			'detailSecond': detailSecond,
 			'detailThird': detailThird,
 			'detailFourth': detailFourth,
 			'detailFifth': detailFifth,
-			'detailSixth': detailSixth,
-			'detailSeventh': detailSeventh,
-			'detailEighth': detailEighth,
-			'detailNinth': detailNinth
+			'detailSixth': detailSixth
 		},
 		data () {
 			return {
@@ -405,10 +393,7 @@
 						step3: false,
 						step4: false,
 						step5: false,
-						step6: false,
-						step7: false,
-						step8: false,
-						step9: false
+						step6: false
 					},
 					index: {
 						step1: 1,
@@ -416,16 +401,14 @@
 						step3: 3,
 						step4: 4,
 						step5: 5,
-						step6: 6,
-						step7: 7,
-						step8: 8,
-						step9: 9
+						step6: 6
 					}
 				},
 				safely: true
 			};
 		},
 		created () {
+			console.log(this.$route.query.trainingStaffName);
 			this.$store.commit('loadingShow');
 			this.$store.commit('changeTitle', 'CSR动态报告审批');
 			this.getHisList();

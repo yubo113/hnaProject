@@ -3,7 +3,7 @@
 		<div class="sider span-8 fl bg-black">
 			<div class="siderTitle bg-orange pl-50 page-head">
 				<div class="inner-center">
-					<img class="siderTitleImg inline" src="static/img/csr/csrwork.png"/>
+					<img class="siderTitleImg inline" src="static/img/csr/csrwork.png" @click="news()"/>
 					<span class="text-white inline">CSR工作</span>
 				</div>
 			</div>
@@ -148,6 +148,9 @@
 			//	进入相应的子菜单详情
 			enterItem: function () {
 
+			},
+			news: function () {
+				this.$router.push({name: 'newsSpokesmanTrain'});
 			}
 		}
 	};

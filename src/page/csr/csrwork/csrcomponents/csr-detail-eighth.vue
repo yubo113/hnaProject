@@ -15,13 +15,15 @@
 					<span>嘉宾邀请</span>
 					<span class="text-dark-grey">({{ detail.csrApproval.invitedTime? detail.csrApproval.invitedTime : "0.0" }}h)</span>
 				</div>
-				<div>
-					<span>媒体邀请</span>
-					<span class="text-dark-grey">({{ detail.csrApproval.invitedTime2? detail.csrApproval.invitedTime2 : "0.0" }}h)</span>
-				</div>
-				<div>
-					<span>举办发布</span>
-					<span class="text-dark-grey">({{ detail.csrApproval.conferenceTime? detail.csrApproval.conferenceTime : "0.0" }}h)</span>
+				<div v-if="!short">
+					<div>
+						<span>媒体邀请</span>
+						<span class="text-dark-grey">({{ detail.csrApproval.invitedTime2? detail.csrApproval.invitedTime2 : "0.0" }}h)</span>
+					</div>
+					<div>
+						<span>举办发布</span>
+						<span class="text-dark-grey">({{ detail.csrApproval.conferenceTime? detail.csrApproval.conferenceTime : "0.0" }}h)</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -30,7 +32,7 @@
 
 <script>
 	export default {
-		props: ['detail'],
+		props: ['detail', 'short'],
 		data () {
 			return {
 				timeout: ''

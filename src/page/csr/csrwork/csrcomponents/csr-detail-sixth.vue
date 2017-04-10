@@ -15,19 +15,21 @@
 					<span>认证标准</span>
 					<span class="text-dark-grey">({{detail.csrApproval.certificationStandards? detail.csrApproval.certificationStandards : '无'}})</span>
 				</div>
-				<div>
-					<span>部门经理汇报</span>
-					<span class="text-dark-grey">({{ detail.csrApproval.deptmBriefed2Time? detail.csrApproval.deptmBriefed2Time : "0.0" }}h)</span>
-				</div>
-				<div>
-					<span>报告印刷</span>
-					<span class="text-dark-grey">({{ detail.csrApproval.printingTime? detail.csrApproval.printingTime : "0.0" }}h)</span>
-					<span class="text-dark-grey">({{ detail.csrApproval.printingNum? detail.csrApproval.printingNum : "0" }}册)</span>
-				</div>
-				<div>
-					<span>报告寄送</span>
-					<span class="text-dark-grey">({{ detail.csrApproval.deliveryTime? detail.csrApproval.deliveryTime : "0.0" }}h)</span>
-					<span class="text-dark-grey">({{ detail.csrApproval.deliveryNum? detail.csrApproval.deliveryNum : "0" }}册)</span>
+				<div v-if="!short">
+					<div>
+						<span>部门经理汇报</span>
+						<span class="text-dark-grey">({{ detail.csrApproval.deptmBriefed2Time? detail.csrApproval.deptmBriefed2Time : "0.0" }}h)</span>
+					</div>
+					<div>
+						<span>报告印刷</span>
+						<span class="text-dark-grey">({{ detail.csrApproval.printingTime? detail.csrApproval.printingTime : "0.0" }}h)</span>
+						<span class="text-dark-grey">({{ detail.csrApproval.printingNum? detail.csrApproval.printingNum : "0" }}册)</span>
+					</div>
+					<div>
+						<span>报告寄送</span>
+						<span class="text-dark-grey">({{ detail.csrApproval.deliveryTime? detail.csrApproval.deliveryTime : "0.0" }}h)</span>
+						<span class="text-dark-grey">({{ detail.csrApproval.deliveryNum? detail.csrApproval.deliveryNum : "0" }}册)</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -36,7 +38,7 @@
 
 <script>
 	export default {
-		props: ['detail'],
+		props: ['detail', 'short'],
 		data () {
 			return {};
 		}

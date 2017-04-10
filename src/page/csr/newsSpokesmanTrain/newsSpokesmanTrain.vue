@@ -18,12 +18,8 @@
 				    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.projectName }}</span></span>
 				    		</div>
 				    		<div>
-				    			<span class="text-light-grey span-3 inline tr">报告类别</span>
-				    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.reportType }}</span></span>
-				    		</div>
-				    		<div>
-				    			<span class="text-light-grey span-3 inline tr">发布时间</span>
-				    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.reportRelTime }}</span></span>
+				    			<span class="text-light-grey span-3 inline tr">培训时间</span>
+				    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.trainingTime }}</span></span>
 				    		</div>
 				    		<div>
 				    			<span class="text-light-grey span-3 inline tr">工作状态</span>
@@ -31,7 +27,7 @@
 				    		</div>
 				    		<div>
 				    			<span class="text-light-grey span-3 inblock tr vertical-top">参与人</span>
-				    			<span class="span-6 inblock vertical-top">:<span class="pl-10 text-blue inblock" v-for="(people,index) in item.csrReportSonList" :key="index" @click="enterApp(people, item)">{{people.reportParticipantname}}</span></span>
+				    			<span class="span-6 inblock vertical-top">:<span class="pl-10 text-blue inblock" v-for="(people,index) in item.csrReportSonList" :key="index" @click="enterApp(people, item)">{{people.trainingStaffName}}</span></span>
 				    		</div>
 				    	</div>
 				    	<div class="fr project-index tc text-white">
@@ -69,9 +65,9 @@
 			};
 		},
 		created () {
-			this.$store.commit('changeTitle', 'CSR工作');
+			this.$store.commit('changeTitle', '新闻发言人培训');
 			// this.$store.commit('loadingHide');
-			this.$store.commit('loadingShow');
+			// this.$store.commit('loadingShow');
 			this.getCsrWork();
 		},
 		watch: {
@@ -81,21 +77,22 @@
 			enterApp: function (people, item) {
 				people.projectName = item.projectName;
 				if (people.thisStatus === '2') {
-					this.$router.push({name: 'appReport', query: people});
+					this.$router.push({name: 'newsSpokesmanReport', query: people});
 				} else {
-					this.$router.push({name: 'hisReport', query: people});
+					this.$router.push({name: 'newsSpokesmanHisory', query: people});
 				}
 			},
 			getCsrWork: function (name) {
 				const self = this;
 				return this.$post({
-					url: '/app/mainReq?reqUrl=/mobile/csrReport/list',
+					url: '/app/mainReq?reqUrl=/mobile/newsSpokesmanTrain/list',
 					params: {
 						projectName: name,
 						pageSize: 6,
 						pageNo: this.pageCount
 					}
 				}).then(res => {
+					console.log(res);
 					const preventResult = self.projectList.length;
 					//	当成功返回数据
 					if (res.result) {
@@ -142,7 +139,7 @@
 		},
 		// activated () {
 		// 	this.$store.commit('loadingShow');
-		// 	this.$store.commit('changeTitle', 'CSR工作');
+		// 	this.$store.commit('changeTitle', '新闻发言人培训');
 		// 	this.getCsrWork();
 	 //    },
 	 //    deactivated () {

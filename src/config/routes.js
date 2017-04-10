@@ -11,16 +11,22 @@ import csr from '../page/csr/csr.vue';
 import csrwork from '../page/csr/csrwork/csrwork.vue';
 import appReport from '../page/csr/csrwork/app-report.vue';
 import hisReport from '../page/csr/csrwork/history-report.vue';
+import newsSpokesmanTrain from '../page/csr/newsSpokesmanTrain/newsSpokesmanTrain.vue';
+import newsSpokesmanReport from '../page/csr/newsSpokesmanTrain/app-report.vue';
+import newsSpokesmanHisory from '../page/csr/newsSpokesmanTrain/history-report.vue';
 import fileImg from '../components/fileImg.vue';
 // projectDevelop(项目发展)
 import projectDevelop from '../page/projectDevelop/projectDevelop.vue';
 import projectStatistics from '../page/projectDevelop/projectstatistics/project-statistics.vue';
 import partnerSearch from '../page/projectDevelop/projectstatistics/partner-search.vue';
+import projectSearch from '../page/projectDevelop/projectstatistics/project-search.vue';
+import sourceSearch from '../page/projectDevelop/projectstatistics/source-search.vue';
 import charitablePartner from '../page/projectDevelop/projectstatistics/charitable-partner.vue';
 import joinHistory from '../page/projectDevelop/projectstatistics/join-history.vue';
 
 // diffuseMessage(传播事务)
 import diffuseMessage from '../page/diffuseMessage/diffuseMessage.vue';
+import mediaInfo from '../page/diffuseMessage/mediaInfo/media-info.vue';
 
 // operation(品牌运营)
 import operation from '../page/operation/operation.vue';
@@ -54,7 +60,10 @@ export default [
         { path: '/index/csr/csrwork', name: 'csrwork', component: csrwork },
         { path: '/index/csr/appreport', name: 'appReport', component: appReport },
         { path: '/index/csr/hisreport', name: 'hisReport', component: hisReport },
-        { path: '/index/csr/fileImg', name: 'fileImg', component: fileImg }
+        { path: '/index/csr/fileImg', name: 'fileImg', component: fileImg },
+        { path: '/index/csr/newsSpokesmanTrain', name: 'newsSpokesmanTrain', component: newsSpokesmanTrain },
+        { path: '/index/csr/newsSpokesmanReport', name: 'newsSpokesmanReport', component: newsSpokesmanReport },
+        { path: '/index/csr/newsSpokesmanHisory', name: 'newsSpokesmanHisory', component: newsSpokesmanHisory }
     ]
   },
   //  项目发展
@@ -65,6 +74,8 @@ export default [
     children: [
       { path: '/index/projectDevelop/projectStatistics', name: 'projectstatistics', component: projectStatistics },
       { path: '/index/projectDevelop/partnerSearch', name: 'partnersearch', component: partnerSearch },
+      { path: '/index/projectDevelop/projectSearch', name: 'projectSearch', component: projectSearch },
+      { path: '/index/projectDevelop/sourceSearch', name: 'sourceSearch', component: sourceSearch },
       { path: '/index/projectDevelop/charitablePartner', name: 'charitablepartner', component: charitablePartner },
       { path: '/index/projectDevelop/joinHistory', name: 'joinHistory', component: joinHistory }
     ]
@@ -73,7 +84,10 @@ export default [
   {
     path: '/index/diffuseMessage',
     name: 'diffuseMessage',
-    component: diffuseMessage
+    component: diffuseMessage,
+    children: [
+      { path: '/index/diffuseMessage/mediaInfo', name: 'mediaInfo', component: mediaInfo }
+    ]
   },
   //  品牌运营
   {

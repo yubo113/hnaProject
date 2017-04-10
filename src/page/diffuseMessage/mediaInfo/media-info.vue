@@ -69,10 +69,9 @@
 			};
 		},
 		created () {
-			this.$store.commit('changeTitle', 'CSR工作');
-			// this.$store.commit('loadingHide');
+			this.$store.commit('changeTitle', '媒体合作信息');
 			this.$store.commit('loadingShow');
-			this.getCsrWork();
+			this.getMediaInfo();
 		},
 		watch: {
 		},
@@ -86,7 +85,7 @@
 					this.$router.push({name: 'hisReport', query: people});
 				}
 			},
-			getCsrWork: function (name) {
+			getMediaInfo: function (name) {
 				const self = this;
 				return this.$post({
 					url: '/app/mainReq?reqUrl=/mobile/csrReport/list',
@@ -140,13 +139,6 @@
 				this.getCsrWork(this.searchName);
 			}
 		},
-		// activated () {
-		// 	this.$store.commit('loadingShow');
-		// 	this.$store.commit('changeTitle', 'CSR工作');
-		// 	this.getCsrWork();
-	 //    },
-	 //    deactivated () {
-	 //    },
 		updated () {
 			//	刷新iscroll
 			if (this.curworkIscroll) {

@@ -42,8 +42,9 @@ Vue.filter('timeStrAllFormat', filter.timeStrAllFormat);
 // import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
 // Vue.use(MintUI);
-import { DatetimePicker } from 'mint-ui';
+import { DatetimePicker, Picker } from 'mint-ui';
 Vue.component(DatetimePicker.name, DatetimePicker);
+Vue.component(Picker.name, Picker);
 // import { Loadmore } from 'mint-ui';
 // 	Vue.component(Loadmore.name, Loadmore);
 // import { Indicator , InfiniteScroll } from 'mint-ui';
@@ -51,7 +52,6 @@ Vue.component(DatetimePicker.name, DatetimePicker);
 
 // 引用公用方法
 import api from './config/api';
-//	ajax方法封装
 Vue.prototype.$get = api.get;
 Vue.prototype.$post = api.post;
 Vue.prototype.$put = api.put;
@@ -62,7 +62,8 @@ Vue.prototype.initIscroll = api.initIscroll;
 Vue.prototype.loadmore = api.loadmore;
 Vue.prototype.initChart = api.initChart;
 Vue.prototype.initSelect = api.initSelect;
-
+Vue.prototype.timeStrFormat = api.timeStrFormat;
+Vue.prototype.timeStrAllFormat = api.timeStrAllFormat;
 /*	eslint-disable no-new	*/
 new Vue({
 	router,

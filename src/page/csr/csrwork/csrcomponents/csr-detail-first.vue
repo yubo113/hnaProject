@@ -6,19 +6,19 @@
 				<div v-if="detail.csrApproval.writwritingTimeingFile && detail.csrApproval.writwritingTimeingFile !== 'null'">
 					<span>拟写招标文件</span>
 					<span class="text-dark-grey">({{ detail.csrApproval.writwritingTimeingTime? detail.csrApproval.writwritingTimeingTime : 0 }}h)</span>
-					<span class="text-red pl-10 pr-10" @click="enterFileImg()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+					<span class="text-red pl-10 pr-10" @click="enterFileImg(detail.csrApproval.writwritingTimeingFile)"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
 					<span class="text-dark-grey">({{ detail.csrApproval.writwritingTimeingFile | filesNum }}个)</span>
 				</div>
 				<div v-if="detail.csrApproval.tenderFeedbackFile && detail.csrApproval.tenderFeedbackFile !== 'null'">
 					<span>修改招标文件</span>
 					<span class="text-dark-grey">({{ detail.csrApproval.feedbackTime? detail.csrApproval.feedbackTime : 0 }}h)</span>
-					<span class="text-red pl-10 pr-10" @click="enterFileImg()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+					<span class="text-red pl-10 pr-10" @click="enterFileImg(detail.csrApproval.tenderFeedbackFil)"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
 					<span class="text-dark-grey">({{ detail.csrApproval.tenderFeedbackFile | filesNum }}个)</span>
 				</div>
 				<div v-if="detail.csrApproval.finalTenderFile && detail.csrApproval.finalTenderFile !== 'null'">
 					<span>定稿招标文件</span>
 					<span class="text-dark-grey">({{ detail.csrApproval.finalTime? detail.csrApproval.finalTime : 0 }}h)</span>
-					<span class="text-red pl-10 pr-10" @click="enterFileImg()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+					<span class="text-red pl-10 pr-10" @click="enterFileImg(detail.csrApproval.finalTenderFile)"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
 					<span class="text-dark-grey">({{ detail.csrApproval.finalTenderFile | filesNum }}个)</span>
 				</div>
 			</div>
@@ -35,16 +35,14 @@
 			};
 		},
 		methods: {
-			enterFileImg: function () {
+			enterFileImg: function (fileName) {
+				this.$store.commit('setFileList', fileName);
 				this.$router.push({name: 'fileImg'});
 			}
 		},
 		mounted () {
 		},
 		beforeDestroy () {
-			// console.log('this is de');
-			// clearTimeout(this.timeout);
-			// console.log(this.timeout);
 		}
 	};
 </script>

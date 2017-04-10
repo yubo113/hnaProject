@@ -54,3 +54,53 @@
 	padding:0.05rem 0.2rem;
 	border: 1px dashed $dark-grey;
 }
+//	file.vue
+.file-img {
+	width: 0.6rem;
+	height: 0.6rem;
+	border: 1px solid #eaeaea;
+	border-radius: 0.1rem;
+	line-height: 0.5rem;
+	.file-icon {
+		color: #ccc;
+	}
+}
+.file-text {
+	width: calc(100% - 0.8rem);
+	border-bottom: 1px solid #eaeaea;
+	span {
+		word-wrap: break-word;
+		line-height: 0.6rem;
+	}
+}
+//	select2插件样式改写
+//	限定整体高度
+.select2-container .select2-selection--multiple {
+	// min-height: 28px!important;
+	// max-height: 28px!important;
+}
+	//	使文本垂直居中
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+	// margin-top: 2px!important;
+}
+	//	去掉多选搜索框
+.select2-container .select2-search--inline {
+	// display:none!important;
+}
+	//	清空按钮垂直居中
+.select2-container--default .select2-selection--multiple .select2-selection__clear {
+	margin-top: 2px!important;
+}
+	//	删除选中状态
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+	background-color: #ddd;
+	color: initial;
+}
+.select2-container--default .select2-results__option[aria-selected=true] {
+	color: initial;
+}
+	//	多选按钮颜色
+// .select2-container--default .select2-selection--multiple .select2-selection__choice {
+// 	background-color: $green;
+// 	color: $white;
+// }

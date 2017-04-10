@@ -14,18 +14,16 @@
 			    		</div>
 			    		<div class="mb-20">
 			    			<span class="text-light-grey span-2 inline tr">参与人</span>
-			    			<span class="span-7 textOverflow inline app-report-text">{{ $route.query.reportParticipantname }}</span>
+			    			<span class="span-7 textOverflow inline app-report-text">{{ $route.query.trainingStaffName }}</span>
 			    		</div>
 			    		<div class="mb-20">
-			    			<detailFirst :detail="detail" :short="false" v-if="detailStep == 1"></detailFirst>
-				    		<detailSecond :detail="detail" :short="false" v-if="detailStep == 2"></detailSecond>
-				    		<detailThird :detail="detail" :short="false" v-if="detailStep == 3"></detailThird>
-				    		<detailFourth :detail="detail" :short="false" v-if="detailStep == 4"></detailFourth>
-				    		<detailFifth :detail="detail" :short="false" v-if="detailStep == 5"></detailFifth>
-				    		<detailSixth :detail="detail" :short="false" v-if="detailStep == 6"></detailSixth>
-				    		<detailSeventh :detail="detail" :short="false" v-if="detailStep == 7"></detailSeventh>
-				    		<detailEighth :detail="detail" :short="false" v-if="detailStep == 8"></detailEighth>
-				    		<detailNinth :detail="detail" :short="false" v-if="detailStep == 9"></detailNinth>
+			    			<detailFirst :detail="detail" v-if="detailStep == 1"></detailFirst>
+				    		<detailSecond :detail="detail" v-if="detailStep == 2"></detailSecond>
+				    		<detailThird :detail="detail" v-if="detailStep == 3"></detailThird>
+				    		<detailFourth :detail="detail" v-if="detailStep == 4"></detailFourth>
+				    		<detailFifth :detail="detail" v-if="detailStep == 5"></detailFifth>
+				    		<detailSixth :detail="detail" v-if="detailStep == 6"></detailSixth>
+	
 			    		</div>
 			    		<div class="mb-20">
 			    			<span class="text-light-grey span-2 inline tr vertical-top">审批意见</span>
@@ -57,17 +55,14 @@
 
 <script>
 	import { MessageBox } from 'mint-ui';
-	import detailFirst from './csrcomponents/csr-detail-first.vue';
-	import detailSecond from './csrcomponents/csr-detail-second.vue';
-	import detailThird from './csrcomponents/csr-detail-third.vue';
-	import detailFourth from './csrcomponents/csr-detail-fourth.vue';
-	import detailFifth from './csrcomponents/csr-detail-fifth.vue';
-	import detailSixth from './csrcomponents/csr-detail-sixth.vue';
-	import detailSeventh from './csrcomponents/csr-detail-seventh.vue';
-	import detailEighth from './csrcomponents/csr-detail-eighth.vue';
-	import detailNinth from './csrcomponents/csr-detail-ninth.vue';
+	import detailFirst from './newsSpokesmanComponents/news-detail-1.vue';
+	import detailSecond from './newsSpokesmanComponents/news-detail-2.vue';
+	import detailThird from './newsSpokesmanComponents/news-detail-3.vue';
+	import detailFourth from './newsSpokesmanComponents/news-detail-4.vue';
+	import detailFifth from './newsSpokesmanComponents/news-detail-5.vue';
+	import detailSixth from './newsSpokesmanComponents/news-detail-6.vue';
 	export default {
-		components: {'detailFirst': detailFirst, 'detailSecond': detailSecond, 'detailThird': detailThird, 'detailFourth': detailFourth, 'detailFifth': detailFifth, 'detailSixth': detailSixth, 'detailSeventh': detailSeventh, 'detailEighth': detailEighth, 'detailNinth': detailNinth},
+		components: { 'detailFirst': detailFirst, 'detailSecond': detailSecond, 'detailThird': detailThird, 'detailFourth': detailFourth, 'detailFifth': detailFifth, 'detailSixth': detailSixth },
 		data () {
 			return {
 				appReportIscroll: '',
@@ -83,8 +78,8 @@
 			};
 		},
 		created () {
-			this.$store.commit('loadingShow');
-			this.$store.commit('changeTitle', 'CSR动态报告审批');
+			// this.$store.commit('loadingShow');
+			this.$store.commit('changeTitle', '新闻发言人培训审批');
 			this.getReport();
 		},
 		watch: {
@@ -95,13 +90,13 @@
 				const self = this;
 				const userId = this.$route.query.thisStep;
 				this.$post({
-					url: '/app/mainReq?reqUrl=/mobile/csrReport/approvalDetail',
+					url: '/app/mainReq?reqUrl=/mobile/newsSpokesmanTrain/approvalDetail',
 					params: {
 						id: this.$route.query.id
 					}
 				}).then(res => {
+					console.log(res);
 					if (res.result) {
-						console.log(res.data);
 						if (res.data[`step${userId}`]) {
 							self.detail.csrApproval = res.data[`step${userId}`];
 							self.detailStep = userId;
@@ -113,7 +108,7 @@
 			//	审批结果发送
 			reportOperate: function (resultObj) {
 				this.$post({
-					url: '/app/mainReq?reqUrl=/dynrap/hnabCsrDynrAp/approvalResult',
+					url: '/app/mainReq?reqUrl=/csrreporting/hnaResDynamicCsrreporting/approvalResult',
 					params: {
 						'id': this.$route.query.id,
 						'hnabCsrApprovalInfo.status': resultObj.result,
@@ -152,9 +147,9 @@
 			//	进入历史审批报告
 			enterHisReport: function () {
 				if (this.readonly) {
-					this.$router.replace({name: 'hisReport', query: this.$route.query});
+					this.$router.replace({name: 'newsSpokesmanHisory', query: this.$route.query});
 				} else {
-					this.$router.push({name: 'hisReport', query: this.$route.query});
+					this.$router.push({name: 'newsSpokesmanHisory', query: this.$route.query});
 				}
 			},
 			//	返回点击结果
@@ -168,7 +163,6 @@
 						} else {
 							self.resultText = '拒绝';
 						}
-						// const advice = encodeURIComponent(self.getAdvice);
 						self.reportOperate({
 							result: self.returnResult(self.resultText),
 							resultDetail: self.getAdvice

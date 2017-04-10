@@ -13,25 +13,16 @@
 				this.initChartHeight('#wrapper-chart', '.statistics-iscroll', '#container');
 				this.initChart('container', {// 图表初始化函数，其中 container 为图表的容器 div
 				chart: {
-					type: 'pie'
+					type: 'line',
+					spacingTop: 40
 				},
 				legend: {
-					align: 'right',
-					verticalAlign: 'middle',
-					layout: 'vertical'
+					// align: 'right',
+					// verticalAlign: 'middle',
+					// layout: 'vertical'
 				},
 				plotOptions: {
-					pie: {
-						// size: '75%',
-						dataLabels: {
-							enabled: true,
-							// format: '{point.percentage:.1f} %',
-	                        distance: -50,
-	                        color: '#FFF',
-	                        style: {
-	                            textShadow: '0 0 #FFF'
-	                        }
-						},
+					line: {
 						showInLegend: true
 					}
 				},
@@ -61,6 +52,24 @@
 						return this.point.name + ':' + this.y + '%';
 					}
 				},
+				yAxis: {
+					min: 0,
+					title: {
+						text: ''
+					},
+					stackLabels: {
+						enabled: false			//	显示总和的属性  true为显示
+						// style: {
+						// 	fontWeight: 'bold',
+						// 	color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+						// }
+					},
+					labels: {
+						formatter: function () {
+							return this.value + '%';
+						}
+					}
+				},
 				series: [{
 					data: [
 						{
@@ -83,7 +92,7 @@
 		mounted () {
 			console.log('this is partner');
 			this.newHight();
-			this.initTop('#wrapper-chart', '.statistics-iscroll');
+			// this.initTop('#wrapper-chart', '.statistics-iscroll');
 		}
 	};
 </script>
