@@ -31,7 +31,7 @@ import eking from 'Eking';
 			};
 		},
 		created () {
-			// this.$store.commit('loadingShow');
+			this.$store.commit('loadingShow');
 			this.$store.commit('changeTitle', '附件列表');
 			this.getFileImg();
 		},
@@ -40,7 +40,7 @@ import eking from 'Eking';
 			 *	获取文件base64码
 			 */
 			getFileImg: function () {
-				// console.log(this.$store.state.filelist.fileList);
+				console.log(this.$store.state.filelist.fileList);
 				const self = this;
 				this.$post({
 					url: '/app/mainReq?reqUrl=/mobile/appUtil/getFiles',
@@ -50,7 +50,7 @@ import eking from 'Eking';
 				}).then(res => {
 					if (res.result && res.data.files && res.data.files.length > 0) {
 						self.fileList = res.data.files;
-						console.log(self.fileList);
+						console.log(res.data);
 						self.$store.commit('loadingHide');
 					}
 				}, res => {
@@ -63,17 +63,20 @@ import eking from 'Eking';
 			 */
 			enterFileDetail: function (file) {
 				this.code = file.fileCode;
-				console.log(this.code);
+				// console.log(file.returnCode);
 				const fileName = file.fileTitle;
 				const typeStr = fileName.substr(fileName.lastIndexOf('.') + 1);
-				// const typeStr = 'text';
-				// console.log(typeStr);
 				const fileObj = {
 					name: fileName,
 					type: typeStr
 				};
-				// console.log(typeStr);
-				this.fileCheck(fileObj);
+				if (file.returnCode === '00') {
+					this.fileCheck(fileObj);
+				} else if (file.returnCode === '01') {
+					eking.alert(`${file.name}文件不存在`);
+				} else {
+					eking.alert(`不支持${file.name}预览`);
+				}
 			},
 			/*	检查本地文件是否存在
 			 *	opt: 对象(name: 文件名字; type: 文件后缀)

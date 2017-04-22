@@ -18,8 +18,11 @@
 		},
 		methods: {
 			refreshData: function () {
-				if (this.nodata !== '暂无数据') {
+				this.$store.commit('loadingShow');
+				if (this.refresh) {
 					this.refresh();
+				} else {
+					this.$store.commit('loadingHide');
 				}
 			}
 		}

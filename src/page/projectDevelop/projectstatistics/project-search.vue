@@ -31,6 +31,7 @@
 				selected: null,
 				showNum: 3,
 				isShow: false,
+				clearTime: null,			//	延时器存储器
 				startTime: '',				//	开始时间
 				endTime: '',				//	结束时间
 				startIndex: 0,
@@ -65,9 +66,8 @@
 			 *	1.有存储状态(不执行ajax)赋值给选中的	2.无存储状态(执行ajax)
 			 */
 			getSelected: function () {
-				let selectValue = this.$store.state.searchResult.projectSelected.value;
 				let selectOpt = this.$store.state.searchResult.projectSelected.option;
-				if (selectValue) {
+				if (selectOpt) {
 					this.options = selectOpt;
 				} else {
 					this.$store.commit('loadingShow');
@@ -95,7 +95,7 @@
 							this.options.push(obj);
 						}
 						this.newSelect2();
-						setTimeout(function () {
+						self.clearTime = setTimeout(function () {
 							self.$store.commit('loadingHide');
 						}, 1000);
 					}
@@ -151,7 +151,7 @@
 							x: categories,
 							y: dataTmp
 						});
-						this.$router.replace({name: 'projectstatistics'});
+						this.$router.push({name: 'projectStatistics'});
 					}
 				});
 			},
@@ -173,6 +173,11 @@
 			if (selectValue) {
 				this.newSelect2();
 				this.selected.val([selectValue]).trigger('change');
+			}
+		},
+		beforeDestroy () {
+			if (this.clearTime) {
+				clearTimeout(this.clearTime);
 			}
 		}
 	};

@@ -33,7 +33,7 @@
 				<div v-if="detail.csrApproval.planModifyFile && detail.csrApproval.planModifyFile !== 'null'">
 					<span>修改合作方案</span>
 					<span class="text-dark-grey">({{ detail.csrApproval.planModifyconsuming? detail.csrApproval.planModifyconsuming : 0 }}h)</span>
-					<span class="text-red pl-10 pr-10" @click="enterFileImg(detail.csrApproval.tenderFeedbackFil)"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+					<span class="text-red pl-10 pr-10" @click="enterFileImg(detail.csrApproval.planModifyFile)"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
 					<span class="text-dark-grey">({{ detail.csrApproval.planModifyFile | filesNum }}个)</span>
 				</div>
 				<div v-if="detail.csrApproval.schemefinalizedfile && detail.csrApproval.schemefinalizedfile !== 'null'">

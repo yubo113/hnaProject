@@ -31,9 +31,25 @@ html {
 
 @media (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
   html {
+    font-size: 85px;
+  }
+}
+
+/* ipad */
+
+@media (min-device-width : 768px) and (max-device-width : 1024px){
+  html {
     font-size: 110px;
   }
 }
+
+/* ipad以上 (暂时注释掉,以后必须打开)*/
+
+// @media (min-device-width : 1024px) {
+//   html {
+//     font-size: 140px;
+//   }
+// }
 
 body {
   width: 100%;

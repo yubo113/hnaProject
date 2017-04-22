@@ -1,4 +1,4 @@
 module.exports = {
   NODE_ENV: '"production"',
-  API_ROOT: '"http://192.168.5.106:8080/hnaBrank"'
+  API_ROOT: '"http://114.251.242.223:8080/hudata"'
 }

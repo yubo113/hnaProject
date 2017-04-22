@@ -12,26 +12,18 @@
 				</div>
 				<div v-if="projectList.length > 0">
 				    <div class="project-detail row bg-white charitable-status" v-for="(item,index) in projectList" :key="index">
-				    	<div class="fl project-text pt-10 pb-10">
+				    	<div class="fl project-text pt-10 pb-10" @click="enterApp(item.id)">
 				    		<div>
-				    			<span class="text-light-grey span-3 inline tr">项目名称</span>
-				    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.projectName }}</span></span>
+				    			<span class="text-light-grey span-3 inline tr">机构名称</span>
+				    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.orgName }}</span></span>
+				    		</div>
+				    		<div class="pt-10 pb-10">
+				    			<span class="text-light-grey span-3 inline tr">对接人</span>
+				    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.orgUser }}</span></span>
 				    		</div>
 				    		<div>
-				    			<span class="text-light-grey span-3 inline tr">报告类别</span>
-				    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.reportType }}</span></span>
-				    		</div>
-				    		<div>
-				    			<span class="text-light-grey span-3 inline tr">发布时间</span>
-				    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.reportRelTime }}</span></span>
-				    		</div>
-				    		<div>
-				    			<span class="text-light-grey span-3 inline tr">工作状态</span>
-				    			<span>:<span class="pl-10">{{ item.workStauts }}</span></span>
-				    		</div>
-				    		<div>
-				    			<span class="text-light-grey span-3 inline tr">参与人</span>
-				    			<span>:<span class="pl-10 text-blue inline" v-for="(people,index) in item.csrReportSonList" :key="index" @click="enterApp(people, item)">{{people.reportParticipantname}}</span></span>
+				    			<span class="text-light-grey span-3 inline tr">联系方式</span>
+				    			<span class="span-6 textOverflow inline">:<span class="pl-10">{{ item.orgUserTel }}</span></span>
 				    		</div>
 				    	</div>
 				    	<div class="fr project-index tc text-white">
@@ -63,35 +55,30 @@
 				chaPartnerIscroll: '',
 				isPullDown: false,
 				types: true,
-				searchName: '',
+				searchName: this.$store.state.monitorData.charitablePartner,
 				nodata: '暂无数据',
 				pageCount: 1
 			};
 		},
 		created () {
+			console.log(this.$store.state.monitorData.charitablePartner);
 			this.$store.commit('changeTitle', '公益项目合作伙伴');
-			// this.$store.commit('loadingHide');
 			this.$store.commit('loadingShow');
-			this.getCsrWork();
+			this.getPartnerList();
 		},
 		watch: {
 		},
 		methods: {
 			//	进入审批报告
-			enterApp: function (people, item) {
-				people.projectName = item.projectName;
-				if (people.thisStatus === '2') {
-					this.$router.push({name: 'appReport', query: people});
-				} else {
-					this.$router.push({name: 'hisReport', query: people});
-				}
+			enterApp: function (id) {
+				this.$router.push({name: 'joinHistory', query: {id: id}});
 			},
-			getCsrWork: function (name) {
+			getPartnerList: function () {
 				const self = this;
 				return this.$post({
-					url: '/app/mainReq?reqUrl=/mobile/csrReport/list',
+					url: '/app/mainReq?reqUrl=/mobile/hnabResProject/commlist',
 					params: {
-						projectName: name,
+						orgName: this.searchName,
 						pageSize: 6,
 						pageNo: this.pageCount
 					}
@@ -99,15 +86,14 @@
 					const preventResult = self.projectList.length;
 					//	当成功返回数据
 					if (res.result) {
-						console.log(res);
 						//	当数据成功并且有数据时候执行
-						if (res.data && res.data.csrReportList && res.data.csrReportList.length > 0) {
+						if (res.data && res.data.length > 0) {
 							//	判断数据是否是上拉加载还是刷新
 							if (self.isPullDown) {
-								self.projectList = self.projectList.concat(res.data.csrReportList);
+								self.projectList = self.projectList.concat(res.data);
 								self.isPullDown = false;
 							} else {
-								self.projectList = res.data.csrReportList;
+								self.projectList = res.data;
 							}
 							this.pageCount += 1;
 						} else {
@@ -121,6 +107,7 @@
 						self.projectList = [];
 						this.nodata = '网络请求失败，请重新尝试';
 						this.types = false;
+						this.$store.commit('loadingHide');
 					}
 					return preventResult === self.projectList.length;
 				});
@@ -128,25 +115,20 @@
 			//	下拉刷新
 			pullRefresh: function () {
 				this.pageCount = 1;
-				return this.getCsrWork();
+				return this.getPartnerList();
 			},
 			// 加载更多
 			pullMore: function () {
 				this.isPullDown = true;
-				return this.getCsrWork();
+				return this.getPartnerList();
 			},
 			//	搜索框
 			projectSearch: function () {
-				this.getCsrWork(this.searchName);
+				this.pageCount = 1;
+				this.$store.commit('setCharitablePartner', this.searchName);
+				this.getPartnerList();
 			}
 		},
-		activated () {
-			this.$store.commit('loadingShow');
-			this.$store.commit('changeTitle', 'CSR工作');
-			this.getCsrWork();
-	    },
-	    deactivated () {
-	    },
 		updated () {
 			//	刷新iscroll
 			if (this.chaPartnerIscroll) {

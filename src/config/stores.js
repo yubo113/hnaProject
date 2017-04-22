@@ -4,6 +4,7 @@ import loadingMoudles from '../store/modules/loading';
 import returntopMoudles from '../store/modules/returntop';
 import filelistMoudles from '../store/modules/filelist';
 import searchresultMoudles from '../store/modules/searchresult';
+import monitorDataMoudles from '../store/modules/monitorData';
 
 export default {
 	state: {
@@ -20,6 +21,7 @@ export default {
 		loading: loadingMoudles,
 		returntop: returntopMoudles,
 		filelist: filelistMoudles,
-		searchResult: searchresultMoudles
+		searchResult: searchresultMoudles,
+		monitorData: monitorDataMoudles
 	}
 };

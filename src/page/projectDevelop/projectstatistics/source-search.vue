@@ -52,31 +52,34 @@
 			<span>搜  索</span>
 		</div>
 		<div>
-		<mt-datetime-picker ref="picker" :value="pickerValue" type="date" @confirm="handleConfirm" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日" :startDate="startdate" :endDate="enddate">
-		</mt-datetime-picker>
+			<mt-datetime-picker ref="picker" :value="pickerValue" type="date" @confirm="handleConfirm" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日" :startDate="startdate" :endDate="enddate">
+			</mt-datetime-picker>
 		</div>
 	</div>
 </template>
 
 <script>
+	import $ from 'jquery';
+
 	export default {
 		data () {
 			return {
-				selectMul: [],				//	多选条件
-				selectSta: [],				//	项目领域条件
-				selectStatue: [],			//	项目状态
-				options: [],
+				defereds: [],				//	储存pormise数组
+				selectMul: [],				//	项目名称多选条件
+				selectSta: [],				//	项目领域单选条件
+				selectStatue: [],			//	项目状态单选条件
+				clearTime: null,			//	延时器储存器
 				selected: {},
 				startdate: new Date('2010-01-01'),
 				enddate: new Date(),
-				dateTime: '',				//	判定把事件传给谁
-				startTime: this.timeStrFormat(new Date()),				//	开始时间
-				endTime: this.timeStrFormat(new Date()),				//	结束时间
+				dateTime: '',				//	判定开始or结束时间
+				startTime: this.$store.state.searchResult.sourceSelected.start,				//	开始时间
+				endTime: this.$store.state.searchResult.sourceSelected.end,		//	结束时间
 				pickerValue: new Date()		//	初始化时间
 			};
 		},
 		created () {
-			this.$store.commit('changeTitle', '搜索');
+			this.$store.commit('changeTitle', '资源投入统计器');
 			this.getSelected();
 		},
 		methods: {
@@ -84,26 +87,38 @@
 			 *	1.有存储状态(不执行ajax)赋值给选中的	2.无存储状态(执行ajax)
 			 */
 			getSelected: function () {
-				let selectValue = this.$store.state.searchResult.sourceSelected.value;
-				// let selectOpt = this.$store.state.searchResult.sourceSelected.option;
-				if (selectValue) {
-					// this.options = selectOpt;
+				let optionMul = this.$store.state.searchResult.sourceSelected.optionMul;
+				let optionSta = this.$store.state.searchResult.sourceSelected.optionSta;
+				let optionStatue = this.$store.state.searchResult.sourceSelected.optionStatue;
+				if (optionMul) {
+					this.selectMul = optionMul;
+					this.selectSta = optionSta;
+					this.selectStatue = optionStatue;
 				} else {
-					// this.$store.commit('loadingShow');
-					this.getProjectName();
-					this.getProgectStage();
-					this.getProgectStatue();
+					this.$store.commit('loadingShow');
+					this.getAllRequest();
 				}
 			},
 			/*
-			 *	获取搜索条件,并且创建select2
+			 *	三个搜索条件完全返回
 			 */
-			getProjectSearch: function () {
+			getAllRequest: function () {
+				const self = this;
+				this.getProjectName();
+				this.getProgectStage();
+				this.getProgectStatue();
+				$.when.apply(null, self.defereds).done(function () {
+					self.clearTime = setTimeout(function () {
+						self.$store.commit('loadingHide');
+					}, 1000);
+				});
 			},
 			/*
 			 *	获取项目名称(多选)
 			 */
 			getProjectName: function () {
+				let dfd = $.Deferred();
+				this.defereds.push(dfd);
 				this.$get({
 					url: '/app/mainReq?reqUrl=/staticin/hnabLedStaticInstitution/getProjectName'
 				}).then(res => {
@@ -120,6 +135,7 @@
 							this.selectMul.push(obj);
 						}
 						this.newSelectMul('#selectProject', 'pName');
+						dfd.resolve();
 					}
 				});
 			},
@@ -127,6 +143,8 @@
 			 *	获取项目领域(单选)
 			 */
 			getProgectStage: function () {
+				let dfd = $.Deferred();
+				this.defereds.push(dfd);
 				this.$get({
 					url: '/app/mainReq?reqUrl=/staticin/hnabLedStaticInstitution/getBasproField'
 				}).then(res => {
@@ -143,6 +161,7 @@
 							this.selectSta.push(obj);
 						}
 						this.newSelect2('#selectReport', 'statge');
+						dfd.resolve();
 					}
 				});
 			},
@@ -150,6 +169,8 @@
 			 *	获取项目状态(单选)
 			 */
 			getProgectStatue: function () {
+				let dfd = $.Deferred();
+				this.defereds.push(dfd);
 				this.$get({
 					url: '/app/mainReq?reqUrl=/staticin/hnabLedStaticInstitution/getBasproStatus'
 				}).then(res => {
@@ -166,6 +187,7 @@
 							this.selectStatue.push(obj);
 						}
 						this.newSelect2('#selectWork', 'statue');
+						dfd.resolve();
 					}
 				});
 			},
@@ -181,8 +203,6 @@
 					placeholder: '请选择搜索关键字...'
 				};
 				this.selected[eleId] = this.initSelect(ele, option);
-				// this.selected.on('change', function () {
-				// });
 			},
 			/*
 			 *	创建多选select2
@@ -194,69 +214,85 @@
 					width: '100%',
 					minimumResultsForSearch: -1,
 					multiple: true,
+					separator: ',',
 					placeholder: '请选择搜索关键字...'
 				};
 				this.selected[eleId] = this.initSelect(ele, multipleOpt);
+			},
+			/*	过滤项目名称格式(将数组变成去掉中括号的字符串)
+			 *	arr: 项目名称id数组
+			 *	输出去掉中括号的字符串
+			 */
+			projectNameFormat: function (arr) {
+				let str = '';
+				if (arr.length > 0) {
+					str = arr[0];
+					for (var i = 1; i < arr.length; i++) {
+						str += `,${arr[i]}`;
+					}
+				}
+				return str;
 			},
 			/*	点击搜索开始请求图表数据
 			 *	1.存储选中状态 2.存贮图表数据 3.储存回到页面是哪个tab
 			 */
 			search: function () {
 				const self = this;
-				console.log(self.selectMul[0].value);
 				if (!this.selected.pName.val()) {
 					this.selected.pName.val([self.selectMul[0].value]).trigger('change');
 				}
-				let str = JSON.stringify(this.selected.pName.val()).substr(1, JSON.stringify(this.selected.pName.val()).length - 2);
-				console.log(this.selected.pName.val());
-				console.log(this.selected.statue.val());
-				console.log(this.selected.statge.val());
-				console.log(this.startTime);
-				console.log(this.endTime);
-				console.log(str);
 				this.$post({
-					url: '/app/mainReq?reqUrl=/staticin/hnabLedStaticInstitution/getCountFund',
+					url: '/app/mainReq?reqUrl=/staticin/hnabLedStaticInstitution/getCountFund2',
 					params: {
 						basProField: this.selected.statge.val(),
-						basProName: JSON.stringify(this.selected.pName.val()),
-						// basProName: 'f3e9aad2efb24b20bcbb4c925dc92792',
-						basProStatus: this.selected.statue.val()
-						// startTime: this.startTime,
-						// endTime: this.endTime
+						basProName: this.projectNameFormat(this.selected.pName.val()),
+						basProStatus: this.selected.statue.val(),
+						startTime: this.startTime,
+						endTime: this.endTime
 					}
 				}).then(res => {
-					console.log(res);
 					if (res.result) {
 						console.log(res.data);
-						// let categories = res.data.listName;
-						// let dataTmp = {
-						// 	data: res.data.listParam
-						// };
+						let title = '';
+						if (res.data.listPlaInpFund) {
+							title = `总投入${res.data.listPlaInpFund[0] || 0},       资金${res.data.listPlaInpFund[1] || 0},       物资${res.data.listPlaInpFund[2] || 0}`;
+						}
+						let categories = res.data.listName || [];
+						let dataGoods = {
+							data: res.data.listParam || []
+						};
+						let dataMoney = {
+							data: res.data.listXName || []
+						};
 						//	1.存储(选中值) 2.存贮图表数据
-						this.$store.commit('setProjectSelect', {
+						this.$store.commit('setSourceSelect', {
 							nameValue: this.selected.pName.val(),			//	选中多选条件
-							optionMul: this.selectMul,						//	多选条件
+							optionMul: this.selectMul,						//	多选条件列表
 							stageValue: this.selected.statge.val(),			//	选中领域条件
-							optionSta: this.selectStatue,					//	领域条件
+							optionSta: this.selectSta,						//	领域条件列表
 							statueValue: this.selected.statue.val(),		//	选中状态条件
-							optionStatue: this.selectStatue,				//	状态条件
+							optionStatue: this.selectStatue,				//	状态条件列表
 							start: this.startTime,							//	开始时间
 							end: this.endTime								//	结束时间
 						});
-						console.log(this.$store.statue.sourceSelected);
-						// this.$store.commit('setProjectChart', {
-						// 	x: categories,
-						// 	y: dataTmp
-						// });
-						// this.$router.push({name: 'projectstatistics'});
+						// console.log(this.$store.state.searchResult.sourceSelected);
+						this.$store.commit('setSourceChart', {
+							title: title,
+							x: categories,
+							yGoods: dataGoods.data,
+							yMoney: dataMoney.data
+						});
+						this.$router.push({name: 'projectStatistics'});
 					}
 				});
 			},
 			openCalendar: function (type) {
 				if (type === 'start') {
 					this.startdate = new Date('2010-01-01');
+					this.pickerValue = new Date(this.$store.state.searchResult.sourceSelected.start);
 					this.dateTime = true;
 				} else {
+					this.pickerValue = new Date(this.$store.state.searchResult.sourceSelected.end);
 					this.dateTime = false;
 				}
 				this.$refs.picker.open();
@@ -265,31 +301,34 @@
 				if (this.dateTime) {
 					this.startdate = time;
 					this.startTime = this.timeStrFormat(time);
-					console.log(this.startTime);
 				} else {
 					this.endTime = this.timeStrFormat(time);
 				}
 			}
 		},
+		updated () {
+		},
 		mounted () {
-			// const options = {
-			// 	width: '100%',
-			// 	minimumResultsForSearch: -1,
-			// 	placeholder: '输入号码搜索...'
-			// };
-			// const multipleOpt = {
-			// 	width: '100%',
-			// 	minimumResultsForSearch: -1,
-			// 	multiple: true,
-			// 	// allowClear: true,
-			// 	placeholder: '输入号码搜索...'
-			// 	// tags: []
-			// };
-			// this.initSelect('#selectProject', multipleOpt);
-			// this.initSelect('#selectReport', options);
-			// this.initSelect('#selectWork', options);
-			// $('#selectProject').val(['B', 'C']).trigger('change');
-			// console.log($('#selectProject').val());
+			let nameValue = this.$store.state.searchResult.sourceSelected.nameValue;
+			let stageValue = this.$store.state.searchResult.sourceSelected.stageValue;
+			let statueValue = this.$store.state.searchResult.sourceSelected.statueValue;
+			if (nameValue) {
+				this.newSelectMul('#selectProject', 'pName');
+				this.selected.pName.val(nameValue).trigger('change');
+			}
+			if (stageValue) {
+				this.newSelect2('#selectReport', 'statge');
+				this.selected.statge.val([stageValue]).trigger('change');
+			}
+			if (statueValue) {
+				this.newSelect2('#selectWork', 'statue');
+				this.selected.statue.val([statueValue]).trigger('change');
+			}
+		},
+		beforeDestroy () {
+			if (this.clearTime) {
+				clearTimeout(this.clearTime);
+			}
 		}
 	};
 </script>

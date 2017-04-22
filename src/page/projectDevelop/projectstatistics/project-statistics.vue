@@ -35,9 +35,9 @@
 			</div>
 		</div>
 		<div class="static-tab-wrap text-red m-10 row">
-			<div class="static-tab width-4 fl tc" v-bind:class="{'checked-tab': openTab === 1}" @click="openCurrent(1)"><span class="span-10 inblock">合作伙伴统计器</span></div>
-			<div class="static-tab width-4 fl tc static-tab-middle" v-bind:class="{'checked-tab': openTab === 2}" @click="openCurrent(2)"><span>公益项目统计器</span></div>
-			<div class="static-tab width-4 fl tc" v-bind:class="{'checked-tab': openTab === 3}" @click="openCurrent(3)"><span>资源投入统计器</span></div>
+			<div class="static-tab width-4 fl tc" v-bind:class="{'checked-tab': openTab === 1}" @click="openCurrent(1)"><span class="block textOverflow">合作伙伴统计器</span></div>
+			<div class="static-tab width-4 fl tc static-tab-middle" v-bind:class="{'checked-tab': openTab === 2}" @click="openCurrent(2)"><span class="block textOverflow">公益项目统计器</span></div>
+			<div class="static-tab width-4 fl tc" v-bind:class="{'checked-tab': openTab === 3}" @click="openCurrent(3)"><span class="block textOverflow">资源投入统计器</span></div>
 		</div>
 	    <div class="statistics-iscroll">
 			<div id="wrapper-chart">
@@ -72,8 +72,8 @@
 			};
 		},
 		created () {
+			this.$store.commit('setBgColor', '#3a3a3a');
 			this.$store.commit('changeTitle', '公益项目统计');
-			// this.$store.commit('loadingHide');
 			this.$store.commit('loadingShow');
 			this.getProjectInfo();
 		},
@@ -107,7 +107,7 @@
 			//	进入审批报告
 			enterSearch: function (index) {
 				if (index === 1) {
-					this.$router.push({name: 'partnersearch'});
+					this.$router.push({name: 'partnerSearch'});
 				} else if (index === 2) {
 					this.$router.push({name: 'projectSearch'});
 				} else {
@@ -178,6 +178,7 @@
 		mounted () {
 		},
 		beforeDestroy () {
+			this.$store.commit('setBgColor', '#d80c18');
 		}
 	};
 </script>

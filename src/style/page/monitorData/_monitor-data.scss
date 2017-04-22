@@ -1,0 +1,55 @@
+//	brand-source
+.brand-calendar {
+	.calendar-container {
+		position: relative;
+		color: $light-grey;
+		.static-date {
+			width: 100%;
+			line-height: 0.4rem;
+			display: block;
+			background-color: #fff;
+			border: 1px solid #aaa;
+			border-radius: 4px;
+			font-size: 0.18rem;
+			padding: 0 0.4rem 0 0.1rem;
+		}
+		.calendar {
+			position: absolute;
+			right: 0.2rem;
+			top: 0;
+			line-height: 0.4rem;
+			font-size: 0.25rem !important;
+		}
+	}
+	.common-search {
+		font-size: 0.18rem;
+		input {
+			line-height: 0.4rem;
+			color: $light-grey;
+			border: 1px solid #aaa;
+		}
+		i {
+			color: $light-grey;
+		}
+	}
+}
+
+//	brand-source
+.brand-source-detail {
+    border-top: 2px solid $red;
+}
+.brand-detail-table {
+	margin: 0.05rem 0 0 0;
+	background-color: $white;
+	border: thin solid $dark-grey;
+	border-radius: 8px;
+	span {
+		padding: 0.1rem 0;
+	}
+	&:nth-of-type(even) {
+		background-color: $white;
+	}
+	&:nth-of-type(odd) {
+		background-color: $grey;
+	}
+}

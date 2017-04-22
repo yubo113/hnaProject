@@ -15,16 +15,13 @@
 	    </div>
 	    <!--自路由加载-->
 	    <div id="csr-detail">
-	    	<!-- <keep-alive>	 -->
 	    	<router-view></router-view>
-	    	<!-- </keep-alive> -->
 	    </div>
 	</div>
 </template>
 
 <script>
 	import sidebar from '../../components/sidebar.vue';
-	// import loadmore from '../../components/loadmore/src/loadmore.vue'
 
 	export default {
 		components: { 'sidebar': sidebar },
@@ -33,7 +30,8 @@
 			};
 		},
 		created () {
-			this.$router.replace('/index/csr/csrwork');
+			const router = this.$store.state.siderbar.csrFlow.router;
+			this.$router.replace({path: router, query: this.$store.state.siderbar.csrFlow.params});
 			this.$store.commit('changeTitle', 'CSR工作');
 		},
 		computed: {
@@ -43,7 +41,7 @@
 		},
 		methods: {
 			backindex: function () {
-				// console.log(this.$router.path);
+				// console.log(this.$route);
 				this.$router.go(-1);
 			},
 			siderShow: function () {

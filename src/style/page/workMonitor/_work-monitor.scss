@@ -1,0 +1,20 @@
+.work-order {
+	.header-tab {
+		line-height: 0.6rem;
+		font-size: 0.24rem;
+		font-weight: 900;
+		border-bottom: 2px solid $dark-grey;
+	}
+	.header-tab-selected {
+		color: $red;
+		border-color: $red;
+	}
+	//	planning-research
+	.planning-title {
+		line-height: 0.4rem;
+		font-size: 0.22rem;
+		.planning-title-text {
+			font-size: 0.25rem;
+		}
+	}
+}

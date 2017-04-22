@@ -23,7 +23,7 @@
 						showInLegend: false
 					},
 					series: {
-						pointWidth: 30
+						// pointWidth: 30
 					}
 				},
 				exporting: {
@@ -66,9 +66,16 @@
 					}
 				},
 				series: [{
-						// name: self.$store.state.searchResult.projectChart.yAxis.name,
-						data: self.changeFormt()
-					}]
+					// name: self.$store.state.searchResult.projectChart.yAxis.name,
+					data: self.changeFormt()
+				}],
+				noData: {
+					style: {
+						fontWeight: 'bold',
+						fontSize: '15px',
+						color: '#303030'
+					}
+				}
 				});
 			},
 			/*	初始化数据格式

@@ -12,7 +12,7 @@
 				<div v-if="detail.csrApproval.tenderFeedbackFile && detail.csrApproval.tenderFeedbackFile !== 'null'">
 					<span>修改招标文件</span>
 					<span class="text-dark-grey">({{ detail.csrApproval.feedbackTime? detail.csrApproval.feedbackTime : 0 }}h)</span>
-					<span class="text-red pl-10 pr-10" @click="enterFileImg(detail.csrApproval.tenderFeedbackFil)"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+					<span class="text-red pl-10 pr-10" @click="enterFileImg(detail.csrApproval.tenderFeedbackFile)"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
 					<span class="text-dark-grey">({{ detail.csrApproval.tenderFeedbackFile | filesNum }}个)</span>
 				</div>
 				<div v-if="detail.csrApproval.finalTenderFile && detail.csrApproval.finalTenderFile !== 'null'">

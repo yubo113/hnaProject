@@ -21,7 +21,7 @@
 </template>
 
 <script>
-	import sidebar from '../../components/sidebar.vue';
+	import sidebar from '../../components/sidebar-diffuse.vue';
 
 	export default {
 		components: { 'sidebar': sidebar },

@@ -25,20 +25,25 @@
 .hisflow {
 	margin: 0.2rem 0.1rem 0 0.26rem;
 	border-left: thin solid #bcbcbc;
+	div[class="row"] {
+		margin-bottom: 0.2rem;
+		&:last-of-type {
+			margin-bottom: 0rem;
+		}
+	}
 }
 .his-main {
 	position: relative;
 	border: thin solid #bcbcbc;
 	border-left: none;
 	border-top: 2px solid $red;
+	margin-bottom: 0!important;
 }
 .his-tip {
 	display: inline-block;
 	width: 0.16rem;
 	height: 0.16rem;
 	margin-left: -0.08rem;
-	// padding-bottom: 
-	// margin-top: -0.1rem;
 	border-radius: 50%;
 }
 .his-time {

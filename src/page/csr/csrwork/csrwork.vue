@@ -87,6 +87,7 @@
 				}
 			},
 			getCsrWork: function (name) {
+				console.log(name);
 				const self = this;
 				return this.$post({
 					url: '/app/mainReq?reqUrl=/mobile/csrReport/list',
@@ -121,6 +122,7 @@
 						self.projectList = [];
 						this.nodata = '网络请求失败，请重新尝试';
 						this.types = false;
+						this.$store.commit('loadingHide');
 					}
 					return preventResult === self.projectList.length;
 				});
@@ -137,6 +139,7 @@
 			},
 			//	搜索框
 			projectSearch: function () {
+				// var s = encodeURI(encodeURI(this.searchName));
 				this.getCsrWork(this.searchName);
 			}
 		},

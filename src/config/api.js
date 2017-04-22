@@ -3,7 +3,12 @@ import IScroll from 'Iscroll';
 const Highcharts = require('highcharts');
 // 在 Highcharts 加载之后加载功能模块
 require('highcharts/modules/exporting')(Highcharts);
-
+require('../../static/noData-chart/nodata-chart')(Highcharts);
+Highcharts.setOptions({
+    lang: {
+        noData: '暂无数据'
+    }
+});
 var root = process.env.API_ROOT;
 
 export default {
@@ -43,6 +48,11 @@ export default {
             // headers: {
             //     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
             // },
+            // headers: {
+            //     'Content-Type': 'application/json',
+            //     'Accept': 'application/json'
+            // },
+            // contentType: 'application/json;charset=utf-8',
             xhrFields: {
                 withCredentials: true,
                 useDefaultXhrHeader: false
@@ -106,12 +116,41 @@ export default {
     },
     /*  初始化iscroll高度
     *   eleId：jquery写法的元素; eleIscroll(包裹iscrol外层wrap): 元素名
-    *   返回高度
+    *   返回距顶部高度
     */
     initTop: function (eleId, eleIscroll) {
         const topNum = document.querySelector(eleIscroll).offsetTop;
         document.querySelector(eleId).style.top = `${topNum}px`;
         return topNum;
+    },
+    /*  初始化iscroll最外层元素高度
+    *   (目的:解决定义包裹横向iscroll的带有relative属性的高度,否则页面高度会展示为0)
+    *   eleContainer:(带有relative)最外层容器; eleWrapper: wrapper容器; eleIscroll: 装横向内容的第一个父元素; eleItem:每个元素
+    *   返回元素高度
+    */
+    initConHeight: function (eleContainer, eleWrapper, eleIscroll, eleItem) {
+        //  获取单个横向内容的高度
+        const heightNum = document.querySelectorAll(eleItem)[0].offsetHeight;
+        //  获取单个横向内容的宽度
+        const widthSum = document.querySelectorAll(eleItem).length;
+        document.querySelector(eleIscroll).style.width = `${4.6 * widthSum}rem`;
+        document.querySelector(eleContainer).style.height = `${heightNum}px`;
+        return heightNum;
+    },
+    /*  初始化iscroll中填充元素高度
+    *   (目的:解决iscroll高度不够不可以上拉加载问题)
+    *   eleWrap: 第一个iscroll外面的距顶部高度; eleFilling: 填充元素; eleFoot: 底部元素
+    */
+    initFilling: function (eleWrap, eleFilling, eleFoot) {
+        const bodyHeight = document.querySelector('body').offsetHeight;
+        const wrapHeight = document.querySelector(eleWrap).offsetTop;
+        const fillHeight = document.querySelector(eleFilling).offsetTop;
+        const footHeight = document.querySelector(eleFoot).offsetHeight;
+        if (bodyHeight - wrapHeight - fillHeight > 0) {
+            document.querySelector(eleFilling).style.height = `${bodyHeight - wrapHeight - fillHeight - footHeight + 1}px`;
+        } else {
+            document.querySelector(eleFilling).style.height = `0px`;
+        }
     },
     /*  初始化iscroll高度
     *   eleId：jquery写法的元素; eleIscroll(包裹iscrol外层wrap): 元素名; eleChart:包裹chart元素
@@ -127,12 +166,41 @@ export default {
     */
     initIscroll: function (iscrollContainer) {
         const iscroll = new IScroll(iscrollContainer, {
+                tap: true,
+                click: false,
+                momentum: true,                     //  开启动量动画，关闭可以提升效率
+                probeType: 2,                        //  滚动时每隔一定时间触发
+                bounceTime: 250,                     //  弹力动画持续的毫秒数
+                scrollbars: false,                   //  显示默认滚动条
+                bounceEasing: 'quadratic',           //  弹力动画效果(二次方)
+                interactiveScrollbars: false,        //  拖动滚动条
+                hideScrollbar: false,                //  隐藏滚动条(api 4.25)
+                disableMouse: true                   //  禁用滚轮事件
+            });
+        return iscroll;
+    },
+    /*  创建横向iscroll
+    *   iscrollContainer: 包含iscroll对象的容器元素
+    *   返回iscroll实例
+    */
+    initHorIscroll: function (iscrollContainer) {
+        const iscroll = new IScroll(iscrollContainer, {
+                // tap: true,                      //  开启tap事件(官网建议)
+                // click: false,                   //  关闭click事件(官网建议)
                 click: true,
-                probeType: 2,
-                bounceTime: 250,
-                bounceEasing: 'quadratic',
-                interactiveScrollbars: false,
-                hideScrollbar: false
+                probeType: 2,                   //  滚动时每隔一定时间触发
+                momentum: true,                //  开启动量动画，关闭可以提升效率
+                //  scrollbars: false,              //  显示默认滚动条
+                scrollX: true,                  //  设置显示横向滚动条
+                scrollY: false,                 //  设置显示纵向滚动条
+                interactiveScrollbars: false,   //  拖动滚动条
+                bounceTime: 250,                //  弹力动画持续的毫秒数
+                bounceEasing: 'quadratic',      //  弹力动画效果(二次方)
+                // disableMouse: true,             //  禁用滚轮事件
+                hideScrollbar: true,            //  隐藏滚动条(api 4.25)
+                vScroll: false,                 //  垂直滚动(api 4.25)
+                hScroll: true                   //  水平滚动(api 4.25)
+                // snap: true,                    //  自动分割容器，用于制作走马灯效果等
             });
         return iscroll;
     },
@@ -254,7 +322,6 @@ export default {
     initSelect: function (eleId, options) {
         $(eleId).select2(options);
         $('.select2-container .select2-search--inline input').attr('readonly', 'readonly');
-        // console.log($(eleId).val());
         return $(eleId);
     },
     /* 更改时间格式，输出yyyy-mm--dd字符串日期

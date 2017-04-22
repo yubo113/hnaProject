@@ -1,0 +1,17 @@
+.common-tab {
+	line-height: 0.6rem;
+	font-size: 0.24rem;
+	font-weight: 900;
+	border-bottom: 2px solid $dark-grey;
+}
+.common-tab-selected {
+	color: $red;
+	border-color: $red;
+}
+//	详细信息列表
+.common-detail-title {
+	@extend .text-light-grey, .span-3, .fl, .tr, .vertical-top;
+}
+.common-detail-con {
+	@extend .span-7, .fl, .vertical-top, .pl-15, .break-all;
+}

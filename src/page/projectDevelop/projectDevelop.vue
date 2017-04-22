@@ -1,7 +1,7 @@
 <template>
 	<div class="csr">
 		<sidebar></sidebar>
-		<div class="page-head head">
+		<div class="page-head head"  v-bind:style="{ 'backgroundColor': $store.state.titlename.bgColor }">
 	      	<div class="tc p-15">
 	        	<span class="fl" @click="backindex"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
 		        <span>{{ title }}</span>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-	import sidebar from '../../components/sidebar.vue';
+	import sidebar from '../../components/sidebar-project.vue';
 
 	export default {
 		components: { 'sidebar': sidebar },
@@ -30,7 +30,7 @@
 			};
 		},
 		created () {
-			this.$router.replace('/index/projectDevelop/projectstatistics');
+			this.$router.replace('/index/projectDevelop/projectStatistics');
 		},
 		computed: {
 			title: function () {
@@ -39,6 +39,7 @@
 		},
 		methods: {
 			backindex: function () {
+				// console.log(this.$route);
 				this.$router.go(-1);
 			},
 			siderShow: function () {

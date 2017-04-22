@@ -57,7 +57,14 @@
 				},
 				series: [{
 					data: self.$store.state.searchResult.partnerChart
-					}]
+				}],
+				noData: {
+					style: {
+						fontWeight: 'bold',
+						fontSize: '15px',
+						color: '#303030'
+					}
+				}
 				});
 			}
 		},

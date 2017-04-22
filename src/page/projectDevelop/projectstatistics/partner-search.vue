@@ -35,9 +35,9 @@
 			 *	1.有存储状态(不执行ajax)赋值给选中的	2.无存储状态(执行ajax)
 			 */
 			getSelected: function () {
-				let selectValue = this.$store.state.searchResult.partnerSelected.value;
+				// let selectValue = this.$store.state.searchResult.partnerSelected.value;
 				let selectOpt = this.$store.state.searchResult.partnerSelected.option;
-				if (selectValue) {
+				if (selectOpt) {
 					this.options = selectOpt;
 				} else {
 					this.$store.commit('loadingShow');
@@ -115,7 +115,7 @@
 							option: this.options
 						});
 						this.$store.commit('setPartnerChart', series);
-						this.$router.replace({name: 'projectstatistics'});
+						this.$router.push({name: 'projectStatistics'});
 					}
 				});
 			}

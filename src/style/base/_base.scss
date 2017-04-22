@@ -98,9 +98,10 @@
 }
 
 .break-all {
+  white-space: normal;
   word-break: break-all;
+  word-wrap: break-word;
 }
-
 .white-space-initial {
   white-space: initial !important;
 }
@@ -200,16 +201,6 @@ button[disabled], html input[disabled] {
         }
     }
 }
-// $input-bg: $light-grey;
-// $input-border: $mid-light-grey;
-// $input-bg-hover: $mid-light-grey;
-// $input-border-hover: $mid-grey;
-// $input-bg-focus: $light-blue;
-// $input-border-focus: $blue;
-// Text indent, margins, and paddings from 5-50px in 5px increments
-// e.g. in-10 - {text-indent: 10px}
-// e.g. p-10 - {padding: 10px}
-// e.g. mt-20 - {margin-top: 20px}
 $spacing-property-map: ( m: margin, mt: margin-top, mr: margin-right, ml: margin-left, mb: margin-bottom, p: padding, pt: padding-top, pb: padding-bottom, pl: padding-left, pr: padding-right, );
 @for $size from 0 through 10 {
     $val: $size * 5;
@@ -227,13 +218,13 @@ $spacing-property-map: ( m: margin, mt: margin-top, mr: margin-right, ml: margin
 // 宽度比例 最高10层(相当于100%)
 @for $size from 0 through 10 {
 	.span-#{$size} {
-		width: $size * 10%;
+		width: $size * 10% !important;
 	}
 }
 // 宽度比例 最高12层(相当于100%)
 @for $size from 0 through 12 {
     .width-#{$size} {
-        width: $size * 100% / 12;
+        width: $size * 100% / 12 !important;
     }
 }
 // @mixin widthRate($color:$pipe-grey) {

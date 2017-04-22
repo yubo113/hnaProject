@@ -32,8 +32,11 @@
 	.menuList {
 		padding : 0.12rem 0;
 		border-bottom: 1px solid #a1a1a1;
+		&:nth-of-type(1) {
+			border-top: 1px solid #a1a1a1;
+		}
 		.list-detail {
-			padding-top : 0.12rem;
+			// padding-top : 0.12rem;
 			li {
 				// border-top: 1px solid #a3a3a3;
 				padding: 0.05rem 0;

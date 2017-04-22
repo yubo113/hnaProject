@@ -11,7 +11,8 @@ Vue.use(VueRouter);
 import routes from './config/routes';
 // 使用配置文件规则
 const router = new VueRouter({
-	routes
+	routes,
+	history: true
 });
 
 // 引用vuex
@@ -24,13 +25,15 @@ const store = new Vuex.Store(
 );
 
 // 引用了$http
-import VueResource from 'vue-resource';
-Vue.use(VueResource);
+// import VueResource from 'vue-resource';
+// Vue.use(VueResource);
 // Vue.http.options.emulateJSON = true;
 // Vue.http.options.credientials = true;
 // Vue.http.options.crossDomain = true;
 // Vue.http.options.emulateHTTP = true;
-
+// 引用了vue-tap
+import VueTap from '../static/vue-tap/vue-tap';
+Vue.use(VueTap);
 // 引用filter
 import filter from './config/filter';
 Vue.filter('csrWorkStatus', filter.csrworkStatus);
@@ -57,8 +60,11 @@ Vue.prototype.$post = api.post;
 Vue.prototype.$put = api.put;
 Vue.prototype.$delete = api.delete;
 Vue.prototype.initTop = api.initTop;
+Vue.prototype.initConHeight = api.initConHeight;
 Vue.prototype.initChartHeight = api.initChartHeight;
+Vue.prototype.initFilling = api.initFilling;
 Vue.prototype.initIscroll = api.initIscroll;
+Vue.prototype.initHorIscroll = api.initHorIscroll;
 Vue.prototype.loadmore = api.loadmore;
 Vue.prototype.initChart = api.initChart;
 Vue.prototype.initSelect = api.initSelect;

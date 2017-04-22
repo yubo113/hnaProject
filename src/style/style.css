@@ -10,6 +10,7 @@
 @import "components/iscrolls";
 @import "components/returntop";
 @import "components/mint-ui";
+@import "components/common-tab";
 
 /*page*/
 @import "scss/index";
@@ -19,3 +20,11 @@
 @import "page/csr/app-report";
 
 @import "page/project/project-statistics";
+
+@import "page/diffuse/media-info";
+
+@import "page/workMonitor/work-monitor";
+
+@import "page/monitorData/monitor-data";
+
+@import "page/operation/operation-ad";
